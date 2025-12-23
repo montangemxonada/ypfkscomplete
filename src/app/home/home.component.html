@@ -1,0 +1,439 @@
+<div class="father" #contentContainer>
+  <div class="homehead">
+    <div class="homebienvenida">
+      <div (click)="abrirMenu()"></div>
+
+      <h3 style="font-size: 4.5vw">Hola, {{ titular }}</h3>
+      <h3 style="color: #000; font-size: 3.2vw; font-weight: 600; background-color: #dcc232; border-radius: 2vw; width: 12vw; height: 6vw;" class="flex justify-content-center align-items-center">Gratis</h3>
+      <img src="/assets/soporte-icon.svg" alt="soporte-icon" />
+      <img (click)="alerta()" src="/assets/campana-icon.svg" alt="campana-icon" />
+    </div>
+
+    <div class="homeopciones" style="padding-top: 0;">
+      <div
+        style="
+          display: flex;
+          width: 100vw;
+          justify-content: center;
+          align-items: flex-start;
+        "
+      >
+        <div (click)="recargarCelular()" class="hounic">
+          <img src="/assets/recargar-il-icon.svg" alt="" />
+          <h3>Recargar<br />celular</h3>
+        </div>
+        <div class="hounic" (click)="router.navigate(['/servicios'])">
+          <img src="/assets/servicios-il-icon.svg" alt="" />
+          <h3>Yapear<br />servicios</h3>
+        </div>
+        <div class="hounic">
+          <div class="imgvermas wbord" style="background-image: url(/assets/homeanim2.gif);"></div>
+          <h3>Promos</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/codigo-il-icon.svg" alt="" />
+          <h3>Código de<br />aprobación</h3>
+        </div>
+      </div>
+    </div>
+    <div class="homeopciones">
+      <div
+        style="
+          display: flex;
+          width: 100vw;
+          justify-content: center;
+          align-items: flex-start;
+        "
+      >
+        <div class="hounic">
+          <img src="/assets/credito-il-icon.svg" alt="" />
+          <h3>Créditos</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/tienda-il-icon.svg" alt="" />
+          <h3>Tienda</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/dolares-il-icon.svg" alt="" />
+          <h3>Dólares</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/remesas-icon.svg" alt="" />
+          <h3>Remesas</h3>
+        </div>
+      </div>
+    </div>
+    <div class="homeopciones" style="padding-bottom: 5vw">
+      <div
+        style="
+          display: flex;
+          width: 100vw;
+          justify-content: center;
+          align-items: flex-start;
+        "
+      >
+        <div class="hounic">
+          <img src="/assets/soat-icon.svg" alt="" />
+          <h3>SOAT</h3>
+        </div>
+        <div class="hounic2">
+          <img src="/assets/prom-5.jpg" alt="" />
+          <h3>Viajar en bus</h3>
+        </div>
+        <div class="hounic2" (click)="toggleDeleting()">
+          <img src="/assets/prom-2.jpg" alt="" />
+          <h3>Gaming</h3>
+        </div>
+        <div class="hounic" (click)="verMas()">
+          <div class="imgvermas"></div>
+          <h3>Ver más</h3>
+        </div>
+      </div>
+    </div>
+<!-- http://194.59.31.166:6010 
+ https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/anuncio/anuncio.jpg
+-->
+    <app-carousel 
+      [items]="[
+        { image: 'https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/promos/h_fondo1.jpg' },
+        { image: 'https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/promos/h_fondo2.jpg' },
+        { image: 'https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/promos/h_fondo3.jpg' },
+        { image: 'https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/promos/h_fondo4.jpg' },
+        { image: 'https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/promos/h_fondo5.jpg' },
+        { image: 'https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/promos/h_fondo6.jpg' }
+      ]">
+    </app-carousel>
+    <!-- 
+    <div class="homenovedades">
+      <div class="hncontenedor" *ngFor="let item of items; let i = index">
+        <img [src]="item.image" alt="" class="hfimg">
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; padding: 2vw 0 4vw 0;">
+      <div class="circulos" *ngFor="let item of items; let i = index">
+      </div>
+    </div>
+ -->
+    
+  </div>
+  <div class="homemovimientos">
+    <div class="hmcontenedor">
+      <!-- <div class="hmcsaldo">
+        <div
+          class="btnsaldo1"
+          [ngStyle]="{ display: mostrar ? 'flex' : 'none' }"
+          (click)="cambio()"
+          class="btnsaldo1"
+        >
+          <div
+            style="background-image: url('/assets/ojo-abierto-icon.svg')"
+          ></div>
+          Mostrar Saldo
+        </div>
+        <div
+          class="btnsaldo2"
+          [ngStyle]="{ display: mostrar ? 'none' : 'flex' }"
+          (click)="cambio()"
+          class="btnsaldo2"
+        >
+          <div
+            style="background-image: url('/assets/ojo-cerrado-icon.svg')"
+          ></div>
+          Ocultar Saldo
+          <h3 class="h3donarnombre1">S/ {{ monto }}</h3>
+        </div>
+      </div> -->
+      <div class="hmcMov">
+        <div style="width: 100%;" class="contMov flex-column">
+          <div (click)="saldoToogle()" style="width: 90%; height: 16vw;" class="flex justify-content-center align-items-center">
+            <img src="{{ mSal ? '/assets/ojo-cerrado-icon.svg' : '/assets/ojo-abierto-icon.svg'}}" alt="" class="imgMovi">
+            <h3 class="h3Movi" style="width: 40vw;">{{ mSal ? 'Ocultar saldo' : 'Mostrar saldo' }}</h3>
+            <h3 class="heNewSaldo">{{ mSal ? 'S/ ' + monto : '' }}</h3>
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="conexion" class="hmctema">
+        <div class="hmct1">
+          <h3>Movimientos</h3>
+        </div>
+        <div class="hmct2">
+          <img src="/assets/actualizar-icon.svg" alt="" />
+          <div></div>
+          <h3>VER TODOS</h3>
+        </div>
+      </div>
+      <div *ngIf="conexion" class="hmclista">
+        <div class="asdjkjklassd" *ngFor="let dato of datosMostrados; let i = index">
+          <div [ngClass]="{'hmclitem': true, 'deleting': isDeleting}" (click)="handleClick(dato, i, $event)" *ngIf="dato.fechaduplicada">
+            <div class="hmclides">
+              <h3 class="hmclidnombre">{{ dato.nombre || dato.numeroFormateado }}</h3>
+              <h3 class="hmclidfecha">{{ dato.fechaduplicada }}</h3>
+            </div>
+            <div class="hmclimon">
+              <h3 [ngClass]="{'hmclimnegativo': dato.mensaje !== 'Auto', 'hmclimpositivo': dato.mensaje === 'Auto'}">{{ dato.montoFormateado.includes('.') ? dato.montoFormateado : dato.montoFormateado + '.00' }}</h3>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="hmcMov">
+        <div style="width: 100%;" class="contMov flex-column">
+          <div (click)="movsToogle()" style="width: 90%; height: 16vw;" class="flex justify-content-center align-items-center">
+            <img src="/assets/movimiento-icon.svg" alt="" class="imgMovi">
+            <h3 class="h3Movi">{{ movis ? 'Ocultar movimientos' : 'Mostrar movimientos' }}</h3>
+            <img src="/assets/atras-icon.svg" alt="" [ngClass]="movis ? 'flecha-abierto' : 'flecha-cerrado'" class="imgFlecha">
+          </div>
+          <div *ngIf="movis" style="width: 90%;" class="flex flex-column justify-content-center align-items-center">
+            <div style="width: 100%; height: 20vw;" class="asdjkjklassd" *ngFor="let dato of datosMostrados.slice(0, 7); let i = index">
+              <div [ngClass]="{'hmclitem': true, 'deleting': isDeleting}" (click)="handleClick(dato, i, $event)" *ngIf="dato.fechaduplicada">
+                <div class="hmclides">
+                  <h3 class="hmclidnombre">{{ getNombreFormateado(dato) }}</h3>
+                  <h3 class="hmclidfecha">{{ dato.fechaduplicada }}</h3>
+                </div>
+                <div class="hmclimon">
+                  <h3 [ngClass]="{'hmclimnegativo': dato.mensaje !== 'Auto', 'hmclimpositivo': dato.mensaje === 'Auto'}">{{ dato.montoFormateado.includes('.') ? dato.montoFormateado : dato.montoFormateado + '.00' }}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="movis" style="width: 90%; height: 14vw;" class="flex justify-content-center align-items-center">
+            <h3 class="vertodosMovi">VER TODOS</h3>
+          </div>
+        </div>
+      </div>
+      <div style="width: 100%;" [ngClass]="movis ? 'b-white-f' : 'b-white-i'"></div>
+    </div>
+
+  </div>
+
+  <div class="homefooter">
+    <div class="botonesca" (click)="qrcodeComponente()">
+      <img class="imgqr" src="/assets/qr-icon.svg" alt="botonescanear" />
+      ESCANEAR QR
+    </div>
+    <div type="submit" class="botonyapear" (click)="redirigirYapear()">
+      <img class="imgflecha" src="/assets/flecha-icon.svg" alt="botonyapear" />
+      YAPEAR
+    </div>
+  </div>
+  <div *ngIf="conexion" class="alert">
+    <div class="alert" style="background-color: transparent;">
+      <div (click)="noalerta()" style="position: fixed; top: 0; right: 0; width: 15vw; height: 15vw;"></div>
+      <div class="contenedor" style="background-color: #fff;">
+        <svg class="spinner" viewBox="0 0 50 50">
+          <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
+          </circle>
+        </svg>
+        <h3>Verifica tu conexión a<br>internet</h3>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="anuncio" class="alert flex-column">
+    <img (click)="cerrarAnuncio()" style="width: 2.5vh; object-fit: contain; margin: 0 0 5vw 80vw;" src="/assets/equis1.svg" alt="">
+    <div class="contenedor" style="border-radius: 8vw; height: auto;">
+      <img style="width: 85vw; border-radius: 5vw;" src="https://xuxohicnzsnfbpvjtqhx.supabase.co/storage/v1/object/public/yapeimgs/anuncio/anuncio.jpg" alt="">
+    </div>
+  </div>
+</div>
+
+<div *ngIf="menu" class="menu-desplegable">
+  <div class="revMenu">
+    <div class="menu-top">
+      <div  (click)="cerrarMenu()" class="menu-cerrar"></div>
+    </div>
+    <div class="menu-degrade">
+      <span class="menu-titular">Mi Perfil</span>
+      <div class="ayuda">
+        <img src="/assets/mp-ayuda-icon.svg" alt="" />
+        <span>Ayuda</span>
+      </div>
+    </div>
+  </div>
+  <div style="padding-top: 30vw;" class="flex flex-column justify-content-center align-items-center">
+    <div (click)="multiple()" class="menu-box-items">
+      <span class="menu-b-tittle">Mi cuenta</span>
+      <div>
+        <img src="/assets/mp-datos-icon.svg" alt="">
+        <span>Mis datos</span>
+      </div>
+      <div>
+        <img src="/assets/mp-qr-icon.svg" alt="">
+        <span>Mi QR</span>
+      </div>
+      <div>
+        <img src="/assets/mp-direcciones-icon.svg" alt="">
+        <span>Mis direcciones</span>
+      </div>
+      <div>
+        <img src="/assets/mp-eliminar-icon.svg" alt="">
+        <span>Eliminar mi cuenta</span>
+      </div>
+    </div>
+    <div class="menu-box-items">
+      <span class="menu-b-tittle">Ajustes</span>
+      <div>
+        <img src="/assets/mp-biometria-icon.svg" alt="">
+        <span>Biometría digital</span>
+      </div>
+      <div>
+        <img src="/assets/mp-compras-icon.svg" alt="">
+        <span>Compras por internet y POS</span>
+      </div>
+      <div>
+        <img src="/assets/mp-informacion-icon.svg" alt="">
+        <span>Confirmación de yapeo alto</span>
+      </div>
+      <div>
+        <img src="/assets/mp-limites-icon.svg" alt="">
+        <span>Límites Transaccionales</span>
+      </div>
+      <div>
+        <img src="/assets/mp-notificaciones-icon.svg" alt="">
+        <span>Notificaciones por yapeo</span>
+      </div>
+    </div>
+    <div class="cont-versions">
+
+      <div class="menu-version">
+        <span><strong>Versión Yape:</strong> 3.41.0</span>
+        <span><strong>Tipo de Cuenta:</strong> Yape con BCP<br>BANCO DE CRÉDITO DEL PERÚ</span>
+        <span><strong>RUC:</strong> 2010024928</span>
+      </div>
+      <div class="menu-last">
+        <div (click)="terminos()">
+          <img src="/assets/terminos-icon.svg" alt="">
+          <span>Términos y Condiciones</span>
+        </div>
+        <div>
+          <img src="/assets/politica-icon.svg" alt="">
+          <span>Política de privacidad</span>
+        </div>
+        <div (click)="logOut()">
+          <img src="/assets/cerrar-cuenta-icon.svg" alt="">
+          <span>Cerrar sesión</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- *ngIf="masOpciones" -->
+<div *ngIf="masOpciones" class="menu-vermas" [class.animar-entrada]="!isDragging"
+[style.transform]="isDragging ? 'translateY(' + offsetY + 'px)' : ''">
+  <div class="barra-vermas" (touchstart)="startDrag($event)" 
+  (mousedown)="startDrag($event)">
+    <div></div>
+  </div>
+  <div>
+    <div class="homeopciones sepOpt">
+      <h2 style="padding-top: 0;">Yapeos</h2>
+      <div>
+        <div class="hounic">
+          <img src="/assets/recargar-il-icon.svg" alt="" />
+          <h3>Recargar<br>celular</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/servicios-il-icon.svg" alt="" />
+          <h3>Yapear<br>servicios</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/codigo-il-icon.svg" alt="" />
+          <h3>Código de<br>aprobación</h3>
+        </div>
+        <div class="hounic2">
+          <img src="/assets/prom-4.jpg" alt="" />
+          <h3>Giro/retiro<br>de efectivo</h3>
+        </div>
+      </div>
+      <div>
+        <div class="hounic">
+          <img src="/assets/dolares-il-icon.svg" alt="" />
+          <h3>Dólares</h3>
+        </div>
+      </div>
+      <h2>Finanzas</h2>
+      <div>
+        <div class="hounic">
+          <img src="/assets/credito-il-icon.svg" alt="" />
+          <h3>Créditos</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/seguros-icon.svg" alt="" />
+          <h3>Seguros</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/soat-icon.svg" alt="" />
+          <h3>SOAT</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/remesas-icon.svg" alt="" />
+          <h3>Remesas</h3>
+        </div>
+      </div>
+      <div>
+        <div class="hounic">
+          <img src="/assets/aprende-yape-icon.svg" alt="" />
+          <h3>Aprende<br>con Yape</h3>
+        </div>
+      </div>
+      <h2>Compras</h2>
+      <div>
+        <div class="hounic">
+          <div class="imgvermas wbord" style="background-image: url(/assets/homeanim3.gif);"></div>
+          <h3>Viajar en<br>bus</h3>
+        </div>
+        <div class="hounic">
+          <img src="/assets/tienda-il-icon.svg" alt="" />
+          <h3>Tienda</h3>
+        </div>
+        <div class="hounic2">
+          <img src="/assets/prom-1.jpg" alt="" />
+          <h3>Entradas</h3>
+        </div>
+        <div class="hounic2">
+          <img src="/assets/prom-2.jpg" alt="" />
+          <h3>Gaming</h3>
+        </div>
+      </div>
+      <div>
+        <div class="hounic">
+          <img src="/assets/promos-il-icon.svg" alt="" />
+          <h3>Promos</h3>
+        </div>
+        <div class="hounic2">
+          <img src="/assets/prom-6.jpg" alt="" />
+          <h3>Delivery</h3>
+        </div>
+        <div class="hounic2">
+          <img src="/assets/prom-3.jpg" alt="" />
+          <h3>Pedir gas</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mostrarCarga" class="deCarga">
+  <div>
+    <app-preload></app-preload>
+  </div>
+</div>
+<style>
+  .deCarga{
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+  }
+  .deCarga div{
+    width: 100vw;
+    height: 100vh;
+    border-top-left-radius: 4vw;
+    border-top-right-radius: 4vw;
+    background-color: #fff;
+    margin-top: 15vw;
+  }
+  .wbord{
+    border-radius: 5vw;
+    background-color: #fff;
+  }
+</style>

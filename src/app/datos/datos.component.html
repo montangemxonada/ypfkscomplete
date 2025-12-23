@@ -1,0 +1,67 @@
+<div class="father">
+  <div class="alert">
+    <img src="/assets/yapeara-icon.svg" alt="" />
+    <h3 style="color: rgb(116, 34, 132); font-size: 4vw; font-weight: 500">
+      Vas a yapear a
+    </h3>
+    <input
+      style="
+        color: rgb(116, 34, 132);
+        font-size: 5vw;
+        font-weight: 600;
+        border: 0;
+        outline: none;
+        text-align: center;
+        width: 100%;
+      "
+      [(ngModel)]="nombre"
+      placeholder="Ingrese el nombre."
+    />
+    <div class="datos">
+      <div>
+        <h3>Monto</h3>
+        <h3 style="color: rgb(0, 0, 0); font-weight: 600">
+          S/ {{monto}}
+          <!-- <input
+            id="montoInput"
+            type="text"
+            [(ngModel)]="monto"
+            (input)="ajustarAnchoInput()"
+            [ngStyle]="{ 'width.px': (monto.length + 1) * 10 - 4 }"
+          /> -->
+        </h3>
+      </div>
+
+      <div>
+        <h3>Destino</h3>
+        <h3 style="color: rgb(0, 0, 0); font-weight: 600">{{ destino }}</h3>
+      </div>
+<!-- 
+      <div *ngIf="destino !== 'BBVA Perú'">
+        <h3>3 ultimos digitos del numero</h3>
+        <h3 style="color: rgb(0, 0, 0); font-weight: 600">
+          <input
+            id="montoInput"
+            type="text"
+            [(ngModel)]="digitos"
+            style="width: 3.5vh;"
+            maxlength="3"
+        />
+        </h3>
+      </div> -->
+    </div>
+    <div
+    (click)="navigate_()"
+      class="btn"
+      style="
+        font-weight: 500;
+        color: rgb(255, 255, 255);
+        background-color: rgb(36, 192, 181);
+        border: 0.5vw solid rgb(36, 192, 181);
+      "
+    >
+      Confirmar Yapeo
+    </div>
+    <div class="btn">Cancelar</div>
+  </div>
+</div>

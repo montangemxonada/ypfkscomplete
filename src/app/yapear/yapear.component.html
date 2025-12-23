@@ -1,0 +1,42 @@
+<div class="father">
+    <div class="head">
+        <div (click)="homeComponente()"></div>
+        <h3>Yapear a</h3>
+    </div>
+    <div class="option">
+        <label style="border-bottom: 1.2vw solid rgb(161, 90, 171);
+        color: rgb(161, 90, 171)">Contactos</label>
+        <label (click)="editar()">Yapeos pendientes</label>
+    </div>
+    <div class="cuadro">
+        <div class="contenedor">
+            <img src="/assets/buscar-icon.svg" alt="">
+            <input (input)="onChangeNumber($event)" type="tel" maxlength="9" placeholder="Ingresa el celular o busca contacto">
+        </div>
+    </div>
+    <div *ngIf="complete" class="nuevo">
+        <div class="btnumero" (click)="yapear()">
+            <div class="info">
+                <h3 style="color: rgb(34,45,65);
+                margin-bottom: 0.8vw;
+                font-weight: 600;">A nuevo celular</h3>
+                <h3>{{formatNumber(numero)}}</h3>
+            </div>
+            <div class="imgnumero"></div>
+        </div>
+        <h3 style="margin-top: 3.5vw;">No necesitas guardarlo en tus contactos</h3>
+    </div>
+
+    <div *ngIf="incomplete" class="nuevo">
+        <div class="btnumero" *ngFor="let contacto of contactosFiltrados">
+            <div class="info">
+                <h3 style="color: rgb(34,45,65);
+                margin-bottom: 0.8vw;
+                font-weight: 600;">{{contacto.nombre}}</h3>
+                <!-- <h3>942 105 180</h3> -->
+                <h3>{{formatNumber(contacto)}}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<app-preload *ngIf="mostrarPreload"></app-preload>

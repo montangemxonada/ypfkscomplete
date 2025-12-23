@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+.father{
+    background-color: rgb(116, 34, 132);
+    border: 0;
+    padding: 0;
+    overflow: auto;
+    margin: 0;
+    padding: 2vh;
+    height: 100vh;
+    width: 100vw;
+}
+.animation{
+    display: flex;
+    justify-content: center;
+    background-image: url(/assets/AnimationYape.gif);
+    height: 36.82vw;
+    background-size: 22vw;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.animation-serpentina {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(/assets/Animacion.gif);
+    pointer-events: none;
+}
+
+
+.border{
+    width: 75vw;
+    height: 3vw;
+    background-color: transparent;
+    transform: translateY(1.5vw);
+}
+.bordernv{
+    width: 75vw;
+    height: 3vw;
+    background-color: transparent;
+    transform: translateY(-1.5vw);
+}
+.yapeaste{
+    padding-top: 5.72vw;
+    font-size: 6.2vw;
+    color: rgb(114,32,130);
+    font-weight: 500;
+    text-align: center;
+}
+.monto{
+    margin-top: 3vh;
+    padding-top: 6.5vw;
+    padding-bottom: 4.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.monto span{
+    font-size: 6vw;
+    font-weight: 500;
+    text-align: right;
+    color: rgb(199,167,206);
+}
+.monto label{
+    font-size: 15vw;
+    font-weight: 400;
+    text-align: left;
+    color: rgb(114,32,130);
+    line-height: 15vw;
+}
+.nombre{
+    font-size: 5.50vw;
+    padding: 0 4vw 2.3vw 4vw;
+    color: rgb(33,46,65);
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fecha{
+    width: 75vw;
+    font-size: 3.75vw;
+    font-weight: 500;
+    color: rgb(109, 109, 109);
+    padding-bottom: 6vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info{
+    font-size: 3.75vw;
+    font-weight: 400;
+    text-align: center;
+    color: rgb(150, 150, 151);
+    padding: 2vw 0vw;
+    letter-spacing: 0.1pt;
+    border-bottom: 0.3vw solid rgb(240,240,240);
+    border-top: 0.3vw solid rgb(240,240,240);
+}
+.servicios{
+    display: flex;
+    justify-content: center;
+    background-image: url(/assets/flrservicios-des.svg);
+    height: 21vw;
+    background-size: 75vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 5vw 0vw;
+}
+.botones{
+    width: 23vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.botones img{
+    width: 11.2vw;
+    height: 11.2vw;
+    padding: 2vw;
+    color: rgb(255,255,255);
+    background-color: rgb(140,61,153);
+    border-radius: 1.3vw;
+}
+.botones span{
+    color: rgb(255, 255, 255);
+    font-size: 3.6vw;
+    font-weight: 500;
+    margin-top: 2vw;
+    text-align: center;
+}

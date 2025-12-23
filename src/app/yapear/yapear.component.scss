@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+.father{
+    background-color: rgb(255, 255, 255);
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+}
+.head{
+    height: 15vw;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+}
+.head div{
+    width: 16vw;
+    height: 15vw;
+    background-image: url(/assets/cerrar-g-icon.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 4vw;
+    background-color: transparent;
+}
+.head h3{
+    width: 76vw;
+    color: rgb(33,46,65);
+    text-align: left;
+    font-weight: 600;
+    font-size: 5vw;
+}
+.option{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    box-shadow: 1vw 1vw 1vw rgba(230, 229, 229, 0.644);
+}
+.option label{
+    width: 50vw;
+    color: #67686b;
+    background-color: transparent;
+    padding: 2vw 0vw;
+    text-align: center;
+    font-size: 4.2vw;
+    font-weight: 600;
+}
+.cuadro{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin-top: 10vw;
+}
+.contenedor{
+    width: 92vw;
+    height: 10vw;
+    border: 2vw solid #ffffff;
+    border-radius: 1.7vw;
+    background-color: #fff;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    box-shadow: 0vw 0vw 1vw 0.5vw rgba(230, 229, 229, 0.726);
+}
+.contenedor input{
+	width: 62vw;
+    height: 6vw;
+	text-align: left;
+	margin: 0;
+	color: #343434;
+	font-weight: 600;
+	font-size: 3.5vw;
+	margin-left: 2vw;
+    border: 0;
+}
+.contenedor input::-webkit-outer-spin-button,
+.contenedor input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.contenedor input::placeholder{
+	color: #a4a5a7;
+	font-size: 3.5vw;
+	font-weight: 400;
+}
+.contenedor input:focus{
+	outline: 0;
+	border: 0;
+}
+.contenedor input:active{
+	outline: 0;
+	border: 0;
+}
+.contenedor img{
+    width: 6vw;
+    height: 6vw;
+    transform: scaleX(-1);
+    margin-left: 1vw;
+}
+.nuevo{
+    width: 100vw;
+    margin-top: 4vw;
+    margin-left: 4.5vw;
+}
+.nuevo h3{
+    font-size: 3.8vw;
+    color: rgb(157,156,161);
+    font-weight: 400;
+    text-align: left;
+}
+.btnumero{
+    height: 20vw;
+    width: 95vw;
+    border-bottom: 0.5px solid rgb(230,230,230);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.info{
+    height: 20vw;
+    width: 64vw;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+}
+.imgnumero{
+    height: 20vw;
+    width: 11vw;
+    margin-right: 2vw;
+    background-image: url(/assets/nuevo-num-icon.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 7vw;
+}

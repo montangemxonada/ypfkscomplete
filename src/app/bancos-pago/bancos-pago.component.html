@@ -1,0 +1,128 @@
+<div class="father">
+    <div style="background-color: rgb(116, 34, 132);">
+        <div class="head">
+            <div (click)="yapearComponente()" style="
+                background-image: url(/assets/atras-icon.svg);
+                background-size: 2.8vw;"></div>
+            <h3>Yapear a</h3>
+            <div (click)="homeComponente()"></div>
+        </div>
+    </div>
+    <div class="datos">
+        <div *ngIf="!existeYape && !cargando" class="contenedor-datos  flex justify-content-center align-items-center">
+            <!-- class= noYape -->
+            <!-- <div class="flex flex-column" style="margin: 5.2vw 0">
+                <h3 style="color: #6d6d6d;">Número nuevo</h3>
+                <h3 style="color: #838282">{{numero}}</h3>
+            </div>
+            <h3 style="width: 44%; text-align: right; color: #24c0b5">INVITAR A YAPE</h3> -->
+            <div class="contenedor-datos" style="margin: 5.2vw 0">
+                <img src="/assets/banco-yape.svg" alt="logo yape">
+                <h3 class="margin-l">Yape</h3>
+            </div>
+        </div>
+        <div *ngFor="let brand of brands">
+            <div class="contenedor-datos" style="margin: 5.2vw 0" *ngIf="brand === 'YAPE'" (click)="buscar(brand)">
+                <img src="/assets/banco-yape.svg" alt="logo yape">
+                <h3 class="margin-l">{{ brand.charAt(0) + brand.slice(1).toLowerCase() }}</h3>
+            </div>
+        </div>
+        <h3 *ngIf="otrasEntidades" 
+        style="font-size: 4.2vw;
+        width: 90vw;
+        text-align: left;
+        font-weight: 600;
+        color: rgb(116, 34, 132);">Selecciona otra entidad financiera</h3>
+        
+        <div *ngFor="let brand of brands">
+            <div *ngIf="brand !== 'YAPE'" (click)="buscar(brand)" class="contenedor-datos">
+              <img src="/assets/destinos-icon.svg" alt="">
+              <h3 class="margin-l">{{ brand.charAt(0) + brand.slice(1).toLowerCase() }}</h3>
+            </div>
+        </div>
+        <!-- <div (click)="plin()" *ngIf="nombre_plin">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">Plin</h3>
+        </div>
+        <div (click)="bim()">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">Bim</h3>
+        </div>
+        <div (click)="bcp()" *ngIf="nombre_bcp">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">Bcp</h3>
+        </div>
+        <div (click)="agora()" *ngIf="nombre_agora">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">Agora</h3>
+        </div>
+        <div (click)="falabella()" *ngIf="nombre_falabella">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">Banco Falabella</h3>
+        </div>
+        <div (click)="bbva()" *ngIf="nombre_bbva">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">BBVA Perú</h3>
+        </div>
+        <div (click)="dale()" *ngIf="nombre_dale">
+            <img src="/assets/destinos-icon.svg" alt=""> 
+            <h3 class="margin-l">Dale</h3>
+        </div> -->
+    </div>
+</div>
+
+<!-- <app-datos *ngIf="mostrarAlerta" [destino]="destino" [monto]="monto" [digitos]="forxx" [code]="codigo" [nombre]="nombre" ></app-datos> -->
+
+<div *ngIf="mostrarAlerta" class="father-alert">
+    <div class="alert">
+      <img src="/assets/yapeara-icon.svg" alt="" />
+      <h3 style="color: rgb(116, 34, 132); font-size: 4vw; font-weight: 500">Vas a yapear a</h3>
+      <!-- <h3
+        style="
+        color: rgb(116, 34, 132);
+        font-size: 5vw;
+        font-weight: 600;
+        border: 0;
+        outline: none;
+        text-align: center;
+        width: 100%;">{{nombre}}</h3> -->
+      <input
+        style="
+          color: rgb(116, 34, 132);
+          font-size: 5vw;
+          font-weight: 600;
+          border: 0;
+          outline: none;
+          text-align: center;
+          width: 100%;"
+        [(ngModel)]="nombre"
+      />
+      <div class="datos-alerta">
+        <div>
+          <h3>Monto</h3>
+          <h3 style="color: rgb(0, 0, 0); font-weight: 600">
+            S/ {{monto}}
+          </h3>
+        </div>
+  
+        <div>
+          <h3>Destino</h3>
+          <input [(ngModel)]="destino" style="color: rgb(0, 0, 0); font-weight: 600; outline: 0; border: 0; text-align: right; background-color: transparent;">
+          <!-- <h3 style="color: rgb(0, 0, 0); font-weight: 600">{{ destino }}</h3> -->
+        </div>
+      </div>
+      <div (click)="confirmar()" class="btn-alerta"
+        style="
+          font-weight: 500;
+          color: rgb(255, 255, 255);
+          background-color: rgb(36, 192, 181);
+          border: 0.5vw solid rgb(36, 192, 181);
+        ">
+        Confirmar Yapeo
+      </div>
+      <div (click)="cancelar()" class="btn-alerta">Cancelar</div>
+    </div>
+  </div>
+
+<app-preload *ngIf="mostrarPreload" palabra=""></app-preload>
+

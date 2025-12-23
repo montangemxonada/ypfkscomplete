@@ -1,0 +1,34 @@
+<div class="father">
+    <div class="head">
+        <div (click)="yapearComponente()" style="
+            background-image: url(/assets/atras-icon.svg);
+            background-size: 2.8vw;"></div>
+        <h3>Yapear a</h3>
+        <div (click)="homeComponente()"></div>
+    </div>
+    <div class="datos">
+        <div (click)="consult()" *ngIf="consultando" class="freditionlimited"></div>
+        <input *ngIf="!consultando" class="nombre" [(ngModel)]="nombre">
+        <input class="numero" [(ngModel)]="determinarNoD">
+        
+        <div class="monto">
+            <span>S/</span>
+            <input required="" 
+            type="number" 
+            id="monto" 
+            oninput="this.style.width = ((this.value.length + 1) * 9) + 'vw';"
+            [(ngModel)]="monto"
+            placeholder="0"
+            (input)="actualizarBotones()">
+        </div>
+        <div class="anot">Límite por yapeo S/500, límite por día S/2,000</div>
+    </div>
+    <div class="footer">
+        <input type="text" class="inputdesc" placeholder="Agregar mensaje" (keyup)="typeMessage($event)">
+        <div class="btn">
+            <button *ngIf="deNumero" (click)="bancosComponent(monto)" [disabled]="!botonesHabilitados" class="bancos">Otros bancos</button>
+            <button (click)="yapeoComponent(nombre, monto)" [disabled]="!botonesHabilitados" class="yapear" [ngClass]="!deNumero ? 'yapearWF' : 'yapear' ">Yapear</button>
+        </div>
+    </div>
+</div>
+<app-preload *ngIf="mostrarPreload" palabra="Yapeando..."></app-preload>

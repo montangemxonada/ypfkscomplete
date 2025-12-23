@@ -1,0 +1,253 @@
+<div
+  class="contain-user-login w-full h-screen flex justify-content-center align-items-center flex-column">
+  <div *ngIf="showIntro" class="intro-overlay" [class.fade-out]="fadeOut">
+    <img
+      src="https://res.cloudinary.com/dzriliwdj/image/upload/v1765892379/Dise%C3%B1o_sin_t%C3%ADtulo_1_fgtyn2.gif"
+      alt="Intro"
+      class="intro-gif"
+    />
+  </div>
+  <!-- Header fijo -->
+  <div style="width: 100%; position: fixed; top: 0; height: 37vh;"
+       class="fondo-de-yape flex flex-column align-items-center justify-content-end">
+    <div class="ayuda">
+      <b class="ayuda-copy"
+         style="min-width: 50px; text-align: center; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <span>SOLO CON &#x40;SEBASRODRIGUES</span>
+        <span>EN TELEGRAM</span>
+      </b>
+    </div>
+  </div>
+
+  <!-- Panel inferior -->
+  <div class="boxMoreMessage">
+    <div class="box-content-login-info">
+
+      <!-- INFO -->
+      <div class="info-banner" role="status" aria-live="polite">
+        <div class="info-dot"></div>
+        <div class="info-text">
+          <div class="info-title">Info</div>
+          <div class="info-message">{{message}}</div>
+        </div>
+      </div>
+
+      <!-- Recordatorio de scroll -->
+      <div class="scroll-hint">
+        Desliza para ver más <span class="chev">↓</span>
+      </div>
+
+      <div class="box-login">
+        <span class="titulo-cuenta">INICIA SESIÓN</span>
+
+        <!-- ID Vendedor -->
+        <span class="box-login-span">ID Vendedor:</span>
+        <div class="cont-sd">
+          <input
+            #sellerId
+            autocapitalize="off" autocorrect="off" spellcheck="false"
+            style="background-color: transparent; outline: none; border: 0; box-sizing: border-box;"
+            placeholder="Id del Vendedor"
+            (keydown.space)="$event.preventDefault()"
+            (paste)="$event.preventDefault(); sellerId.value=(($event.clipboardData && $event.clipboardData.getData('text'))||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join(''); onIdChange($event)"
+            (input)="sellerId.value=(sellerId.value||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join(''); onIdChange($event)"
+          />
+        </div>
+
+        <!-- Usuario -->
+        <span class="box-login-span">Usuario:</span>
+        <div class="cont-sd">
+          <input
+            #username
+            autocapitalize="off" autocorrect="off" spellcheck="false"
+            style="background-color: transparent; outline: none; border: 0; box-sizing: border-box;"
+            placeholder="Usuario"
+            (keydown.space)="$event.preventDefault()"
+            (paste)="$event.preventDefault(); username.value=(($event.clipboardData && $event.clipboardData.getData('text'))||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join(''); onUsernameChange($event)"
+            (input)="username.value=(username.value||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join(''); onUsernameChange($event)"
+          />
+        </div>
+
+        <!-- Contraseña -->
+        <span class="box-login-span">Contraseña:</span>
+        <div class="cont-sd cont-sd-password" style="gap: 2vw;">
+          <input type="checkbox" #pwdToggle hidden />
+          <input
+            #password
+            [type]="pwdToggle.checked ? 'text' : 'password'"
+            autocapitalize="off" autocorrect="off" spellcheck="false"
+            style="background-color: transparent; outline: none; border: 0; box-sizing: border-box;"
+            placeholder="********"
+            (keydown.space)="$event.preventDefault()"
+            (paste)="$event.preventDefault(); password.value=(($event.clipboardData && $event.clipboardData.getData('text'))||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join(''); onPasswordChange($event)"
+            (input)="password.value=(password.value||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join(''); onPasswordChange($event)"
+          />
+          <button type="button" class="toggle-pwd" (click)="pwdToggle.checked = !pwdToggle.checked">
+            {{ pwdToggle.checked ? 'Ocultar' : 'Mostrar' }}
+          </button>
+        </div>
+
+        <div style="width: 76%;" class="crear flex justify-content-end align-items-center">
+          <button (click)="changepassword()">¿Olvidaste tu contraseña?</button>
+        </div>
+
+        <button
+          [disabled]="first"
+          class="bsolicitar"
+          (click)="login()">
+          {{ first ? "CARGANDO" : "INICIAR SESION" }}
+        </button>
+
+        <div class="crear flex justify-content-center align-items-center">
+          <span style="margin-right: 2vw;">¿Aún no tienes cuenta?</span>
+          <button (click)="nuevo()">Crea una cuenta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal aviso -->
+  <div *ngIf="alertaInfo" style="position: fixed;" class="fondo-gris flex justify-content-center align-items-center">
+    <div class="alerta flex flex-column align-items-start">
+      <div (click)="cerrarAlerta()" style="width: 100%;" class="imgadv flex justify-content-end"></div>
+      <span style="color: #ec1313; margin: 2vw 0; text-align: center; font-size: 6vw;">ADVERTENCIA</span>
+      <span style="font-weight: 600">Los únicos autorizados a la venta de la app estan en Telegram | &#x40;AppsFake.</span>
+      <span style="font-weight: 600">El dueño es &#x40;SebasRodrigues.</span>
+      <span style="font-weight: 600">Reglas:</span>
+      <span>• Esta prohibida la reventa de usuarios a cualquier persona que no sea un revendedor.</span>
+      <span>• La cuenta es unica, si se detecta que está siendo compartida puede llegar a un baneo temporal del servicio.</span>
+      <span>• Al comprar la App estás de acuerdo con los términos y condiciones de la venta de esta, no hay devoluciones, ni problemas a cargo.</span>
+      <span style="font-weight: 600">Indicaciones a los nuevos:</span>
+      <span>• Ve a Crear Cuenta si es la primera vez comprando la App.</span>
+      <span>• Debes poner el ID del Vendedor que te está vendiendo.</span>
+      <span>• Un Usuario que no contenga espacios, ni tus nombres.</span>
+      <span>• La contraseña de igual manera.</span>
+      <span>Recuerda que los datos de tu app se ponen dentro una vez estés dentro</span>
+      <span style="text-transform: uppercase; font-weight: 600;">Cualquier duda a - t.me/sebasrodrigues</span>
+      <img style="object-fit: contain; width: 100%; height: 12vw; margin-top: 2vw;" src="/assets/iconicsnew/apps-anuncio.png" alt="">
+    </div>
+  </div>
+</div>
+
+<style>
+  .contain-user-login{
+    background-image: url('/assets/iconicsnew/fondo-total.jpg');
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+
+  /* Header fijo siempre encima del panel morado */
+  .fondo-de-yape{
+    background-image: url('/assets/iconicsnew/inicio-fondo.png');
+    background-position: center -5vw;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    z-index: 900;
+  }
+  .ayuda{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2.4vw;
+    position: relative;
+    z-index: 901;
+  }
+  .ayuda-copy{
+    color:#fff; font-weight:800; line-height:1.05; text-align:center;
+    text-shadow:0 2px 8px rgba(0,0,0,.35); position: relative; z-index: 901;
+  }
+  .ayuda-copy span{ display:block; }
+
+  /* Panel inferior scrollable (arranca a 36vh) */
+  .boxMoreMessage{
+    position: fixed;
+    top: 36vh; bottom: 0; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    z-index: 200;
+  }
+  .box-content-login-info{
+    background-color: #5e17eb;
+    border-radius: 5vw 5vw 0 0;
+    width: 100vw; display: flex; flex-direction: column; justify-content: flex-start;
+    min-height: 100%; z-index: 201;
+  }
+
+  /* INFO banner */
+  .info-banner{
+    width: 90vw;
+    margin: 2vw auto 0.6vw;
+    padding: 2.6vw 3.2vw;
+    border-radius: 4vw;
+    display: flex; align-items: center; gap: 2.4vw;
+    color: #fff;
+    background: linear-gradient(135deg,#6a00ff 0%,#8c3dff 100%);
+    box-shadow: 0 8px 24px rgba(106,0,255,.32);
+    border: 1px solid rgba(255,255,255,.12);
+    position: relative; z-index: 210;
+  }
+  .info-dot{ width: 3.8vw; height: 3.8vw; border-radius: 50%; background: #00d1ff; box-shadow: 0 0 0 3px rgba(0,209,255,.25); flex-shrink: 0; }
+  .info-text{ display:flex; flex-direction:column; }
+  .info-title{ font-size: 3.2vw; letter-spacing:.08em; text-transform: uppercase; opacity:.9; font-weight:700; margin-bottom: .4vw; }
+  .info-message{ font-size: 4vw; font-weight: 600; }
+
+  /* Recordatorio de scroll */
+  .scroll-hint{
+    width: 90vw; margin: .6vw auto 1vw; text-align: center;
+    color: rgba(255,255,255,.92); font-size: 3.2vw; letter-spacing: .02em;
+    display:flex; align-items:center; justify-content:center; gap: 1vw; opacity:.95;
+  }
+  .scroll-hint .chev{ display:inline-block; animation: bounce 1.2s infinite; }
+  @keyframes bounce{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+
+  .titulo-cuenta{
+    font-weight: 600; font-size: 7vw; text-align: center; font-family: sans-serif; color: #000; padding-bottom: 0.6vw;
+  }
+
+  /* Modal/aviso por encima de todo */
+  .fondo-gris{
+    background-color: #4e387d81; height: 100vh; width: 100vw; position: fixed; inset: 0; z-index: 1000;
+  }
+  .alerta{
+    width: 90vw; padding: 4vw; border-radius: 5vw; background-color: #fff; position: relative; z-index: 1001;
+  }
+  .alerta span{ width: 100%; font-size: 3.8vw; font-weight: 500; margin: .5vw 0; }
+
+  /* Caja del login */
+  .box-login{
+    background-color: #fff;
+    border-radius: 5vw 5vw 0 0;
+    width: 100vw; display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+    padding: 2.6vw 0; /* menos espacio arriba */
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8vh);
+  }
+  .box-login-span{ font-size: 3.5vw; text-align: left; width: 75%; color: #707070; }
+  .cont-sd{
+    display:flex; justify-content:flex-start; align-items:center;
+    background-color:#c8d0e1; border-radius:3vw; width:75%;
+    padding:2.5vw 5vw 2.5vw 4vw; margin:3vw 0;
+  }
+  .cont-sd-password{ gap: 2vw; }
+  .toggle-pwd{ border:0; outline:0; background:#fff; padding:1.2vw 3vw; border-radius:2vw; font-size:3.2vw; color:#5e17eb; flex-shrink:0; }
+  .cont-sd input{ width:100%; font-size:4vw; }
+
+  .bsolicitar{ margin: 2vw 0 1vw; }
+  .crear{ margin: 0.4vw 0; }
+  .crear span, .crear button{ font-size: 3vw; border:0; outline:0; background:transparent; }
+  .crear button{ color:#4400ff; }
+
+  .imgadv{
+    width: 100%; height: 12vh;
+    background-image: url(/assets/iconicsnew/advertencia-login.png);
+    background-size: 100%; background-position: center -16vw;
+  }
+</style>

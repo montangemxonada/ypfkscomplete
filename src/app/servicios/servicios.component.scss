@@ -1,0 +1,108 @@
+
+.father{
+    background-color: rgb(255, 255, 255);
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 5vw 5vw 0 0; 
+}
+.head{
+    height: 15vw;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 5vw;
+    border-top-right-radius: 5vw;
+}
+.head div{
+    width: 16vw;
+    height: 15vw;
+    background-image: url(/assets/cerrar-g-icon.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 4vw;
+    background-color: transparent;
+}
+.head h3{
+    width: 76vw;
+    height: 15vw;
+    color: rgb(33, 46, 65);
+    text-align: left;
+    font-weight: 600;
+    font-size: 5vw;
+    display: flex;
+    align-items: center;
+}
+.father h3{
+    margin: 3vw 0;
+    font-size: 4vw;
+}
+.father input{
+    height: 4vh;
+    border: 0.6vw solid #e0e1e2;
+    border-radius: 2vw;
+    color: rgb(0, 0, 0);
+    padding: 4vw;
+    font-size: 4vw;
+}
+.father input:focus, .father input:active{
+	outline: 0;
+	border: 0;
+	border: 0.6vw solid rgb(176, 78, 206);
+}
+.footer{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 31vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.footer input{
+    width: 90vw;
+    height: 12vw;
+    color: rgb(39,45,59);
+    text-align: center;
+    font-size: 3.89vw;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    border: 0;
+    border-bottom: 0.6vw solid rgb(209,209,209);
+}
+.btn{
+    width: 90vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	margin-top: 3.6vw;
+}
+.btn button{
+    width: 100%;
+    padding-top: 3vw;
+	padding-bottom: 3.45vw;
+	font-size: 4vw;
+	font-weight: 500;
+    border-radius: 2.6vw;
+    text-align: center;
+}
+.yapear{
+	color: rgb(255,255,255);
+	background-color: rgb(36,192,181);
+	border: 0.5vw solid rgb(36,192,181);
+}
+.yapear:active{
+    background-color: rgb(0,166,146);
+}
+.yapear:disabled{
+    background-color: rgb(255, 255, 255);
+    color: rgb(209,209,209);
+    border: 0.5vw solid rgb(209,209,209);
+}
+.yapear:not(:disabled):active {
+	background-color: rgb(0,166,146);
+}

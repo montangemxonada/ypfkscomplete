@@ -1,0 +1,39 @@
+<!-- <div class="carousel-container">
+    <div class="carousel-track" [style.transform]="'translateX(' + offset + ')'">
+        <div class="slide" *ngFor="let item of items">
+            <img [src]="item.image" alt="" class="slide-image">
+        </div>
+    </div>
+  
+    <div class="indicators">
+        <div class="indicator" *ngFor="let item of items; let i = index" 
+            [class.active]="currentIndex === i"
+            (click)="goToSlide(i)">
+            <div class="progress-bar" *ngIf="currentIndex === i"></div>
+        </div>
+    </div>
+</div> -->
+
+<div class="carousel-container"
+     (mousedown)="startDrag($event)"
+     (mousemove)="onDrag($event)"
+     (mouseup)="endDrag()"
+     (mouseleave)="endDrag()"
+     (touchstart)="startDrag($event, true)"
+     (touchmove)="onDrag($event, true)"
+     (touchend)="endDrag()">
+     
+  <div class="carousel-track" #track [style.transform]="'translateX(' + offset + ')'">
+    <div class="slide" *ngFor="let item of items">
+      <img [src]="item.image" alt="" class="slide-image">
+    </div>
+  </div>
+
+  <div class="indicators">
+    <div class="indicator" *ngFor="let item of items; let i = index" 
+         [class.active]="currentIndex === i"
+         (click)="goToSlide(i)">
+      <div class="progress-bar" *ngIf="currentIndex === i && !isDragging"></div>
+    </div>
+  </div>
+</div>

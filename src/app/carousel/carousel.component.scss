@@ -1,0 +1,150 @@
+/*
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+  }
+  
+  .slide {
+    flex: 0 0 75vw;
+    margin-right: 6vw;
+    
+    &:first-child {
+      margin-left: 5vw;
+    }
+  }
+  
+  .slide-image {
+    width: 100%;
+    height: 33vw;
+    object-fit: contain;
+    border-radius: 6vw;
+  }
+  
+  .indicators {
+    display: flex;
+    justify-content: center;
+    padding: 2vw 0 4vw 0;
+    gap: 1.5vw;
+  }
+  
+  .indicator {
+    width: 1.5vw;
+    height: 1.5vw;
+    background: #9e4daa;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    
+    &.active {
+      width: 7vw;
+      border-radius: 3vw;
+      animation: ancho .3s linear;
+    }
+  }
+  
+  .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: #fff;
+    animation: progress 4s ease-out forwards;
+    border-radius: 3vw;
+  }
+@keyframes ancho {
+    from { width: 1.5vw; }
+    to { width: 7vw; }
+
+}
+  @keyframes progress {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+*/
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+    
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+    user-select: none;
+  }
+  
+  .slide {
+    flex: 0 0 75vw;
+    margin-right: 6vw;
+    
+    &:first-child {
+      margin-left: 5vw;
+    }
+  }
+  
+  .slide-image {
+    width: 100%;
+    height: 33vw;
+    object-fit: contain;
+    border-radius: 6vw;
+    pointer-events: none;
+  }
+  
+  .indicators {
+    display: flex;
+    justify-content: center;
+    padding: 2vw 0 4vw 0;
+    gap: 1.5vw;
+  }
+  
+  .indicator {
+    width: 1.5vw;
+    height: 1.5vw;
+    background: #9e4daa;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    
+    &.active {
+      width: 7vw;
+      border-radius: 3vw;
+      animation: ancho 0.3s linear forwards;
+    }
+  }
+  
+  .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: #fff;
+    animation: progress 4s ease-out forwards;
+    border-radius: 3vw;
+  }
+  
+  @keyframes ancho {
+    from { width: 1.5vw; }
+    to { width: 7vw; }
+  }
+  
+  @keyframes progress {
+    from { width: 0; }
+    to { width: 100%; }
+  }

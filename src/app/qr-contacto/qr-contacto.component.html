@@ -1,0 +1,79 @@
+<div
+    class="father h-full flex-column"
+    style="display: flex; justify-content: start; align-items: center"
+    >
+    <div class="info-text">
+        <span style="font-size: 6vw; color: #000;">Guarda un QR</span>
+        <span style="font-size: 4vw; color: #6d6d6d;">Rellena los datos correctamente</span>
+    </div>
+    <div style="width: 70%; padding: 15vw 0;" class="flex justify-content-center align-items-center">
+        <img src="/assets/logoYape-m.svg" alt="" style="width: 25vw; object-fit: contain;">
+    </div>
+    <div
+        class="flex justify-content-center flex-column"
+        style="width: 80%; padding: 1vh; box-sizing: border-box"
+    >
+        <!--Espera aún falta, no he puesto estilos a ese compoente-->
+        <!-- mira como se actualiza we entra a  -->
+        <!-- localhost:4200/cuenta -->
+        <!-- ya ahora si continua AJDasdja  -->
+        <!-- que le hiciste we literal se puso blanco nmms  
+            ya está ntp-->
+        <h3 style="color: black">Nombre</h3>
+        <input (input)="onChangeNombre($event)" class="titular" placeholder="Sebas rodriguez" type="text" style="height: 5vh;" [value]="name"/>
+        
+        <h3 class="mt-3" style="color: black">QR</h3>
+        <input disabled class="monto" style="height: 5vh;" [value]="qr"/>
+    
+        <h3 class="mt-3" style="color: black">Número (Opcional)</h3>
+        <input class="monto" (input)="onChangeNumero($event)" type="tel" maxlength="9" style="height: 5vh;" [value]="phoneNumber"/>
+    
+        <h3 class="mt-3" style="color: black">Destino</h3>
+        <select (change)="onChangeDestino($event)" [value]="app" style="height: 5vh; border-radius: 2vw;">
+            <option value="Yape">Yape</option>
+            <option value="Plin">Plin</option>
+            <option value="Bbva">Bbva</option>
+            <option value="Bim">Bim</option>
+        </select> 
+    </div>
+    <div style="position: absolute; bottom: 0vh; width: 80%; padding: 1vh; display: flex; flex-direction: column;justify-content: center; align-items: center; ">
+        <button (click)="openFileInput()" style="height: 6vh; width: 100%; color: white; background-color: #742284">
+            <div class="flex justify-content-center align-items-center">
+              <input
+                type="file"
+                (change)="onFileSelected($event)"
+                #fileInput
+                style="display: none"
+              />
+              <h3 class="mb-0" style="color: #fff; font-weight: 500; text-align: center;">Subir una imagen</h3>
+            </div>
+        </button>
+        <button
+        style="height: 6vh; width: 100%; color: white; background-color: #742284"
+        (click)="registrar()">
+        Guardar
+        </button>
+    </div>
+    <div class="fatherBoxCargar" *ngIf="loading">
+        <div class="contenedor">
+            <svg *ngIf="!success" class="spinner" viewBox="0 0 50 50">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
+                </circle>
+            </svg>
+            <h3 style="text-align: center;">{{message}}</h3>
+            <span *ngIf="success" (click)="cerrar()" style="padding: 1.5vw 6vw; border-radius: 2vw; background-color: #cbcaca;">Cerrar</span>
+        </div>
+    </div>
+</div>
+
+
+<style>
+  .info-text{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5vw;
+  }
+  .info-text span{
+    text-align: center;
+  }
+</style>

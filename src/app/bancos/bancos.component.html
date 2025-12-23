@@ -1,0 +1,26 @@
+<div class="father">
+    <div style="background-color: rgb(116, 34, 132);">
+        <div class="head">
+            <div (click)="yapearComponente()" style="
+                background-image: url(/assets/atras-icon.svg);
+                background-size: 2.8vw;"></div>
+            <h3>Yapear a</h3>
+            <div (click)="homeComponente()"></div>
+        </div>
+    </div>
+    <div class="datos">
+        <div (click)="confirmar_bancos_pago()">
+            <img src="/assets/banco-yape.svg" alt=""> 
+            <h3 style="width: 15vw;">Yape</h3>
+        </div>
+        <h3 style="font-size: 4.2vw;
+        width: 90vw;
+        text-align: left;
+        font-weight: 600;
+        color: rgb(116, 34, 132);">Entidades financieras</h3>
+        <div (click)="confirmar()" *ngIf="aparece">
+            <h3>Plin</h3>
+        </div>
+    </div>
+</div>
+<app-alertab *ngIf="mostrarAlerta" [numero]="numero" [monto]="monto" [nombre]="nombre"></app-alertab>

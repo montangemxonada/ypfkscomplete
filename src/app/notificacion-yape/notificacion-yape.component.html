@@ -1,0 +1,15 @@
+<div class="noti" [class.visible]="visible" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+    <div>
+        <div class="titulo">
+            <div class="imgyape"></div>
+            <span>Yape · Ahora</span>
+            <div (click)="expandir()" [class.expandido]="expandido" class="expandir"></div>
+        </div>
+        <div class="detalle">
+            <span>Confirmación de Pago</span>
+            <span [class.expandido]="expandido">
+            Yape! {{ nombre }} te envió un pago por S/ {{ monto }}
+            </span>
+        </div>
+    </div>
+</div>

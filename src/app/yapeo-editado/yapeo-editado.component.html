@@ -1,0 +1,164 @@
+<div class="father">
+    <div class="animation" 
+    [style.background-image]="voucher ? 'url(/assets/LogoYape.svg)' : 'url(/assets/AnimationYape.gif)'" 
+    [style.background-size]="voucher ? '17vw' : '20vw'">  
+  </div>
+    <div *ngIf="!voucher" class="animation-serpentina"></div>
+    <div class="inicioCom" (click)="inicioComponente()"></div>
+    <div style="display: flex; flex-direction: column; justify-content: center">
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          margin: 0 0 2vh 0;
+        "
+      >
+        <div style="width: 90%;">
+          <div
+          style="
+            border-radius: 5vw;
+            background-color: rgb(255 255 255);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: .5vh;
+            width: -webkit-fill-available;
+            height: auto;
+            ">
+            <div style="width: 90%; padding: 3vw 0;">
+              <div class="yapeaste-sup flex justify-content-between align-items-center">
+                <div *ngIf="mensaje === 'Auto'">
+                  <h3 class="yapeaste">¡Te Yapearon!</h3>
+                </div>
+                <div *ngIf="mensaje !== 'Auto'">
+                  <h3 class="yapeaste">¡Yapeaste!</h3>
+                </div>
+                <div class="compartir flex justify-content-center align-items-center">
+                  <img style="width: 5vw; height: 5vw;" 
+                    src="/assets/compartir-icon.svg" alt="">
+                  <h3 style="font-size: 4.2vw;
+                  color: #0fcbb3;
+                  padding-left: 2vw;">Compartir</h3>
+                </div>
+              </div>
+              <div class="monto">
+                <label>S/ {{cantidad}}</label>
+              </div>
+              <label class="nombre">{{
+                nombre
+              }}</label>
+              <div class="paraFecha">
+                <img src="/assets/fecha-icon.svg" alt="">
+                <span class="fecha">{{ separarFecha(fecha, 1) }}</span>
+                <span style="margin: 0 1.5vw;" class="fecha">|</span>
+                <img src="/assets/hora-icon.svg" alt="">
+                <span class="fecha">{{ separarFecha(fecha, 2) }}</span>
+              </div>
+              <div *ngIf="mensaje && mensaje !== 'Auto'" class="paraMensaje">
+                <img src="/assets/mensaje-icon.svg" alt="">
+                <span
+                class="info flex align-items-center justify-content-center"
+                style="font-size: 3.6vw; color: black; font-weight: 400"
+              >
+                {{ mensaje }}
+              </span>
+              </div>
+              <div *ngIf="destino === 'Yape'" class="codSecurity">
+                <div class="codP1">
+                  <h3>CÓDIGO DE SEGURIDAD</h3>
+                  <img src="/assets/codigo-seguridad-icon.svg" alt="">
+                </div>
+                <div class="codP2">
+                  <div><h3>{{codSeg(numeroaleatoriomostrar, 1)}}</h3></div>
+                  <div><h3>{{codSeg(numeroaleatoriomostrar, 2)}}</h3></div>
+                  <div><h3>{{codSeg(numeroaleatoriomostrar, 3)}}</h3></div>
+                </div>
+              </div>
+              <div class="codP1 transacc">
+                <h3>DATOS DE LA TRANSACCIÓN</h3>
+              </div>
+              <div class="datosts">
+                <div>
+                  <h3>Nro. de celular:</h3>
+                  <h3 style="font-weight: 500;">{{numero}}</h3>
+                </div>
+                <div>
+                  <h3>Destino:</h3>
+                  <h3 style="font-weight: 500;">{{destino}}</h3>
+                </div>
+                <div>
+                  <h3>Nro. de operación:</h3>
+                  <h3 style="font-weight: 500;">{{numeroaleatoriomostrar}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paraServicios">
+      <div class="transfp">
+        <div class="flex justify-content-start align-items-center">
+          <h3 class="moreyape">Más en Yape</h3>
+          <div class="nuevo"><h3>Nuevo</h3></div>
+        </div>
+        <div class="imgbanner"></div>
+      </div>
+    </div>
+    <div *ngIf="!voucher" class="paraServicios"></div>
+    <div *ngIf="conexion" class="alert">
+        <div class="alert" style="background-color: transparent;">
+          <div (click)="noalerta()" style="position: fixed; top: 0; right: 0; width: 15vw; height: 15vw;"></div>
+          <div class="contenedor">
+            <svg class="spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
+              </circle>
+            </svg>
+            <h3>Verifica tu conexión a<br>internet</h3>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <style>
+    .transfp{
+      width: 90%;
+      background-color: #0000002b;
+      border-radius: 4vw;
+      padding: 4vw;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .moreyape {
+      color: #fff;
+      font-size: 4.5vw;
+      font-weight: 500;
+    }
+    .nuevo{
+      background-color: #f6c31c;
+      border-radius: 2.2vw;
+      padding: 1vw 2.2vw;
+      margin-left: 2vw;
+    }
+    .nuevo h3{
+      font-size: 2.9vw;
+      color: #000;
+      font-weight: 600;
+    }
+    .imgbanner{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 37vw;
+      border-radius: 4vw;
+      background-size: 120%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url(/assets/bnrc.jpg);
+      margin-top: 2vw;
+    }
+  </style>

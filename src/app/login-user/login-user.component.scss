@@ -1,0 +1,84 @@
+.icaja{
+    color: rgb(255, 255, 255);
+    border: 0.3vw solid rgb(255, 255, 255);
+    border-radius: 2vw;
+    margin: 4vw 0;
+}
+
+h3{
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    font-size: medium;
+}
+.bsolicitar{
+    height: 5.5vh; 
+    width: 60vw;
+    background-color: #5e17eb;
+    border-radius: 2vw;
+    color: rgb(255, 255, 255);
+    border: 0;
+    font-size: 4vw;
+    font-weight: 600;
+    margin: 4vw 0;
+}
+// .box-user{
+//     padding-top: 5vw;
+// }
+// .icaja{
+//     color: #000;
+//     border: 0.3vw solid rgb(255, 255, 255);
+//     background-color: #fff;
+//     border-radius: 10vw;
+//     margin: 4vw 0;
+// }
+
+// h3{
+//     color: #000;
+//     font-weight: 600;
+//     font-size: medium;
+// }
+// .bsolicitar{
+//     background-color: rgb(36, 192, 181);
+//     border-radius: 10vw;
+//     color: rgb(255, 255, 255);
+//     border: 0;
+//     font-size: 3.5vw;
+//     font-weight: 600;
+// }
+// .superior{
+//     border-bottom: .7vw #000 solid;
+// }
+// .superior img{
+//     width: 20vw;
+//     object-fit: contain;
+//     margin: 4vw 0;
+// }
+// .superior h3{
+//     font-size: 4vw;
+//     text-align: left;
+//     width: 95%;
+// }
+
+/* ===== INTRO OVERLAY ===== */
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+  }
+  
+  .intro-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .intro-gif {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }

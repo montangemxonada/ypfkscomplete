@@ -1,0 +1,74 @@
+<div class="father">
+    <div class="animation"></div>
+    <div class="animation-serpentina"></div>
+    <div style="display: grid; justify-content: center">
+      <div
+        style="
+          width: 75vw;
+          min-height: 60vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+        "
+      >
+        <img class="border" src="/assets/bordern.svg" alt="" />
+        <div
+          style="
+            background-color: rgb(255 255 255);
+            min-height: 52vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 2vh;
+          "
+        >
+          <div>
+            <h3 class="yapeaste">¡Recargaste!</h3>
+            <div class="monto">
+              <span>S/</span>
+              <label>{{ cantidad }}</label>
+            </div>
+            <label class="nombre" style="text-align: center; font-size: 5vw">Nuevo número</label>
+            <span class="fecha">{{ fecha }}</span>
+          </div>
+          <div style="width: 100%; padding-top: 2vh">
+            <h3 class="info">
+              N° de celular: <span style="color: rgb(0, 0, 0)">{{ numero }}</span>
+            </h3>
+            <h3 class="info">
+              Operadora: <span style="color: rgb(0, 0, 0)">{{ destino }}</span>
+            </h3>
+            <h3 class="info">
+              N° de operación:
+              <span style="color: rgb(0, 0, 0)">{{
+                numeroaleatoriomostrar
+              }}</span>
+            </h3>
+          </div>
+        </div>
+        <img class="bordernv" src="/assets/bordenv.svg" alt="" />
+      </div>
+    </div>
+  
+    <div class="servicios"></div>
+    <div style="display: flex; justify-content: center">
+      <div class="botones">
+        <img src="/assets/compartir-icon.svg" alt="" />
+        <span>Compartir</span>
+      </div>
+      <div (click)="inicioComponente()" class="botones">
+        <img src="/assets/ir-inicio-icon.svg" alt="" />
+        <span>Ir al inicio</span>
+      </div>
+      <div (click)="nuevaRecarga()" class="botones">
+        <img
+          style="background-color: rgb(36, 192, 181)"
+          src="/assets/recargar-celular-b-icon.svg"
+          alt=""
+        />
+        <span>Nueva<br>recarga</span>
+      </div>
+    </div>
+  </div>
+  

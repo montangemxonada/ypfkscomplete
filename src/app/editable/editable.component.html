@@ -1,0 +1,113 @@
+<div class="father">
+    <div style="background-color: rgb(116, 34, 132);">
+      <div class="head">
+        <div (click)="yapearComponente()"
+             style="background-image: url(/assets/atras-icon.svg); background-size: 2.8vw;"></div>
+        <h3>Yapear a</h3>
+        <div (click)="homeComponente()"></div>
+      </div>
+    </div>
+  
+    <div class="datos">
+      <!-- Nombre -->
+      <input class="nombre" style="width: 100%;"
+             placeholder="Nombre y Apellido"
+             id="nombre"
+             [(ngModel)]="nombre"
+             (ngModelChange)="actualizarBotones()">
+  
+      <!-- Número (9 dígitos) -->
+      <input class="numero" type="tel" maxlength="9"
+             placeholder="999999999"
+             [(ngModel)]="numero"
+             (ngModelChange)="actualizarBotones()">
+  
+      <!-- Destino (usar value=... para evitar el error de type-check) -->
+      <select class="destino" [(ngModel)]="destino" (ngModelChange)="actualizarBotones()">
+        <option value="Yape">Yape</option>
+        <option value="Plin">Plin</option>
+        <option value="Izipay">Izipay</option>
+      </select>
+  
+      <!-- Mensaje (opcional) -->
+      <input type="text" class="inputdesc"
+             placeholder="Agregar mensaje (opcional)"
+             [(ngModel)]="mensaje">
+      
+        <!-- Fecha / hora manual -->
+        <div class="fecha-manual" style="margin-top: 3vw;">
+            <label style="display:flex; align-items:center; gap: 2vw;">
+            <input type="checkbox" [(ngModel)]="usarFechaManual">
+            Elegir fecha y hora manualmente
+            </label>
+        
+            <div *ngIf="usarFechaManual"
+                class="fecha-row"
+                style="display:flex; gap: 2vw; margin-top: 2vw;">
+            <input type="date" [(ngModel)]="fechaDia">
+            <input type="time" [(ngModel)]="fechaHora">
+            </div>
+        
+            <small *ngIf="usarFechaManual">
+            Esta fecha/hora se mostrará en el comprobante de la pantalla final.
+            </small>
+        </div>
+
+      <!-- Monto -->
+      <div class="monto">
+        <span>S/</span>
+        <input required
+               type="number"
+               id="monto"
+               min="0"
+               step="0.01"
+               (input)="autoWidth($event)"
+               [(ngModel)]="monto"
+               placeholder="0"
+               (ngModelChange)="actualizarBotones()">
+      </div>
+      <div class="anot">Puedes Yapear hasta S/500 diarios</div>
+  
+      <!-- Nº de operación: auto o manual -->
+      <div class="operacion" style="margin-top: 3vw;">
+        <label style="display:flex; align-items:center; gap: 2vw;">
+          <input type="checkbox" [(ngModel)]="opManual"> Ingresar N° de operación manualmente
+        </label>
+  
+        <div class="op-row" style="display:flex; align-items:center; gap: 2vw; margin-top: 2vw;">
+          <input class="op-input"
+                 type="text"
+                 maxlength="8"
+                 [readonly]="!opManual"
+                 placeholder="01XXXXXX"
+                 [(ngModel)]="operacion">
+          <button type="button"
+                  (click)="regenerarOperacion()"
+                  [disabled]="opManual===true">
+            Regenerar
+          </button>
+        </div>
+        <small>Se usará como “Nro. de operación”. En Yape, el “Código de seguridad” son los 3 últimos dígitos.</small>
+      </div>
+    </div>
+  
+    <div class="footer">
+      <div class="btn">
+        <button [disabled]="!botonesHabilitados" class="bancos">Otros bancos</button>
+        <button (click)="yapeoComponent()" [disabled]="!botonesHabilitados" class="yapear">Yapear</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sustituye <app-preload> por un overlay simple -->
+  <div *ngIf="mostrarPreload" class="preload-overlay"
+       style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#0006; z-index:9999;">
+    <div class="preload-card" style="background:#fff; padding:16px 20px; border-radius:12px; display:flex; gap:12px; align-items:center;">
+      <div class="spinner" style="width:20px; height:20px; border:3px solid #ddd; border-top-color:#742284; border-radius:50%; animation:spin 1s linear infinite;"></div>
+      <span>Yapeando...</span>
+    </div>
+  </div>
+  <style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+  

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+.entrance {
+    /* Agrega cualquier estilo inicial que necesites */
+    opacity: 1;
+    transition: opacity .5s; /* Define la transición de la propiedad de opacidad */
+  }
+  
+  .reduce-opacity {
+    opacity: 1; /* Cambia la opacidad a 0 cuando se aplica esta clase */
+  }
+  
+.father{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	background-color: #0000009a;
+}
+.contenedor{
+	width: 70vw;
+	height: 30vw;
+	background-color: rgb(255, 255, 255);
+	flex-direction: column;
+	display:flex;
+	justify-content: space-evenly;
+	align-items: center;
+	border-radius: 2vw;
+}
+.contenedor h3 {
+	color: #181818;
+	font-weight: 600;
+	font-size: 4.6vw;
+}   
+.spinner{
+	-webkit-animation: rotate 3s linear infinite;
+	animation: rotate 3s linear infinite;
+	width: 10vw;
+	height: 10vw;
+}
+.spinner .path {
+	stroke: #24c0b5;
+	stroke-linecap: round;
+	-webkit-animation: dash 1.5s ease-in-out infinite;
+	animation: dash 1.5s ease-in-out infinite;
+}  
+@keyframes rotate {
+	100% {
+	  -webkit-transform: rotate(360deg);
+			  transform: rotate(360deg);
+	}
+  }
+@keyframes dash {
+	0% {
+	    stroke-dasharray: 1, 150;
+	    stroke-dashoffset: 0;
+	}
+	50% {
+	    stroke-dasharray: 90, 150;
+	    stroke-dashoffset: -35;
+	}
+	100% {
+	    stroke-dasharray: 90, 150;
+	    stroke-dashoffset: -124;
+	}
+}

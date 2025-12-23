@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.background-all{
+    background-color: rgb(116, 34, 132);
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.data{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 37vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.data img {
+    border-radius: 1.5vw;
+    width: 40vw;
+    background-color: #fff;
+    padding: 3vw;
+}
+.data label {
+    margin-top: 2vh;
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.7vw;
+}
+.ayuda {
+    padding: 2vw;
+    width: 25vw;
+    background-color: rgba(255, 255, 255, 0.192);
+    border-radius: 10vw;
+    position: absolute;
+    font-size: small;
+    top: 1.5vh;
+    right: 1.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+}
+.ayuda img {
+    width: 5vw;
+}
+.ayuda label {
+    font-size: 3vw;
+}
+.teclado{
+    width: 100%;
+    height: 45vh;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 3vh 3vh 0 0;
+    padding-top: 3vh;
+}
+.teclado span {
+    width: 100%;
+    font-size: 4vw;
+    font-weight: 600;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ingresa-clave{
+    color: #742284;
+    text-align: center;
+}
+.points{
+    width: 55vw;
+    height: 1.5vh;
+    margin-top: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.point{
+    width: 3vw;
+    height: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.teclas{
+    margin-top: 3vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 97%;
+    height: 27vh;
+    color: black;
+}
+.teclas div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% / 3);
+    height:calc(100% / 4);
+}
+.teclas div button {
+    border: 0;
+    color: black;
+    font-size: 5vw;
+    background-color: rgb(221, 221, 221);
+    height: 90%;
+    border-radius: 1vh;
+    width: 92%;
+    font-weight: 600;
+}
+.b {
+    font-size: 1.8vh;
+    font-weight: bold;
+    color: rgb(36,192,181);
+}
+.imganit{
+    width: 100%;
+    height: 100%;
+    background-image: url(/assets/loginanim1.gif);
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: center;
+}

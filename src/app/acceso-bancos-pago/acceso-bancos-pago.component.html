@@ -1,0 +1,44 @@
+<div
+  class="w-full h-screen flex flex-column justify-content-center align-items-center"
+  style="color: white; background-color: rgb(0, 0, 0); padding: 0; margin: 0"
+>
+  <div
+    class="flex flex-column justify-content-around align-items-center"
+    style="
+      border-radius: 1vh;
+      width: 95%;
+      height: 60vh;
+      padding: 1vh;
+      box-sizing: border-box;
+    "
+  >
+    <div
+      class="w-full flex justify-content-around align-items-center flex-column"
+      style="height: 70%"
+    >
+      <h1>ACCESO PREMIUM</h1>
+      <div
+        class="flex justify-content-center align-items-center flex-column w-full"
+      >
+        <input
+          type="text"
+          style="
+            width: 80%;
+            padding: 1vh;
+            height: 5vh;
+            border-radius: 1vh;
+            border: 0;
+            font-size: 1.5vh;
+            outline: none;
+          "
+          (input)="onUsernameChange($event)"
+          placeholder="Username"
+        />
+      </div>
+      <span>Mensaje: {{ message }}</span>
+      <button (click)="register()" style="width:80%; height: 5vh; border-radius: 1vh; background: transparent; color: white; border: white solid;">
+        {{ two ? "CARGANDO" : "PEDIR ACCESO" }}
+    </button>
+    </div>
+  </div>
+</div>

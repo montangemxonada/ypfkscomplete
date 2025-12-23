@@ -1,0 +1,33 @@
+<div class="father">
+    <div style="background-color: rgb(116, 34, 132);">
+        <div class="head">
+            <div (click)="atras()" style="
+                background-image: url(/assets/atras-icon.svg);
+                background-size: 2.8vw;"></div>
+            <h3>Recargar a</h3>
+            <div (click)="home()"></div>
+        </div>
+    </div>
+    <div class="datos">
+        
+        <h3 class="nombre">{{ numero }}</h3>
+        <span style="color: rgb(128, 128, 128);
+        font-weight: 500;
+        font-size: 3.8vw;">Nuevo número</span>
+        <div class="monto">
+            <span>S/</span>
+            <input required="" 
+            type="number" 
+            id="monto" 
+            oninput="this.style.width = ((this.value.length + 1) * 9) + 'vw';"
+            [(ngModel)]="monto"
+            placeholder="0"
+            (input)="actualizarBotones()">
+        </div>
+    </div>
+    <div class="footer">
+        <div class="btn">
+            <button (click)="yapeoComponent(monto)" [disabled]="!botonesHabilitados" class="yapear">Recargar</button>
+        </div>
+    </div>
+</div>

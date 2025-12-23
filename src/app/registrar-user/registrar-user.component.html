@@ -1,0 +1,238 @@
+<div
+  class="contain-user-login w-full h-screen flex justify-content-start align-items-center flex-column">
+  <div class="btn-atras">
+    <img (click)="user()" src="/assets/iconicsnew/atras-cuenta.svg" alt="">
+  </div>
+
+  <div class="boxMoreMessage">
+    <div class="box-content-login-info">
+
+      <!-- INFO mejorado -->
+      <div class="info-banner" role="status" aria-live="polite">
+        <div class="info-dot"></div>
+        <div class="info-text">
+          <div class="info-title">Info</div>
+          <div class="info-message">{{message}}</div>
+        </div>
+      </div>
+
+      <div class="box-login">
+        <span class="titulo-cuenta">CREAR NUEVA<br>CUENTA</span>
+
+        <div class="add-notas">
+          <img src="/assets/iconicsnew/crear-cuenta.png" alt="">
+          <span>UNA VEZ REGISTRADA<br>PIDE A TU VENDEDOR<br>QUE TE ACEPTE EL<br>USUARIO</span>
+        </div>
+
+       <!-- ID Vendedor -->
+       <span class="box-login-span">ID Vendedor:</span>
+       <div class="cont-sd">
+         <input
+           #sellerId
+           style="background-color: transparent; outline: none; border: 0; box-sizing: border-box;"
+           placeholder="Id del Vendedor"
+           (keydown.space)="$event.preventDefault()"
+           (paste)="$event.preventDefault();
+                    sellerId.value=(($event.clipboardData && $event.clipboardData.getData('text'))||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join('');
+                    onIdChange($event)"
+           (input)="sellerId.value=(sellerId.value||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join('');
+                    onIdChange($event)"/>
+       </div>
+
+       <!-- Usuario -->
+       <span class="box-login-span">Usuario:</span>
+       <div class="cont-sd">
+         <input
+           #username
+           style="background-color: transparent; outline: none; border: 0; box-sizing: border-box;"
+           placeholder="Usuario"
+           (keydown.space)="$event.preventDefault()"
+           (paste)="$event.preventDefault();
+                    username.value=(($event.clipboardData && $event.clipboardData.getData('text'))||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join('');
+                    onUsernameChange($event)"
+           (input)="username.value=(username.value||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join('');
+                    onUsernameChange($event)"/>
+       </div>
+
+       <!-- Contraseña -->
+       <span class="box-login-span">Contraseña:</span>
+       <div class="cont-sd cont-sd-password">
+         <input type="checkbox" #pwdToggle hidden />
+         <input
+           #password
+           [type]="pwdToggle.checked ? 'text' : 'password'"
+           style="background-color: transparent; outline: none; border: 0; box-sizing: border-box;"
+           placeholder="********"
+           (keydown.space)="$event.preventDefault()"
+           (paste)="$event.preventDefault();
+                    password.value=(($event.clipboardData && $event.clipboardData.getData('text'))||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join('');
+                    onPasswordChange($event)"
+           (input)="password.value=(password.value||'')
+                      .split(' ').join('').split('\n').join('').split('\t').join('').split('\r').join('');
+                    onPasswordChange($event)"/>
+         <button type="button" class="toggle-pwd" (click)="pwdToggle.checked = !pwdToggle.checked">
+           {{ pwdToggle.checked ? 'Ocultar' : 'Mostrar' }}
+         </button>
+       </div>
+        <button
+          [disabled]="first"
+          class="bsolicitar"
+          (click)="register()">
+          {{ two ? "CARGANDO" : "CREAR CUENTA" }}
+        </button>
+
+        <div class="iniciar-sesion flex justify-content-center align-items-center">
+          <button (click)="user()">Iniciar Sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .titulo-cuenta{
+    font-weight: 600;
+    font-size: 7vw;
+    text-align: center;
+    font-family: sans-serif;
+    color: #000;
+  }
+  .iniciar-sesion button{
+    font-size: 4vw;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    color: #3685cc;
+    height: 5.5vh;
+  }
+  .contain-user-login{
+    background-image: url('/assets/iconicsnew/fondo-total.jpg');
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+  .btn-atras{
+    width: 100%;
+    height: 10vh;
+  }
+  .btn-atras img{
+    width: 15vw;
+    height: 15vw;
+  }
+
+  /* ======= INFO banner ======= */
+  .info-banner{
+    width: 90vw;
+    margin: 2vw auto 1vw;
+    padding: 2.6vw 3.2vw;
+    border-radius: 4vw;
+    display: flex;
+    align-items: center;
+    gap: 2.4vw;
+    color: #fff;
+    background: linear-gradient(135deg,#6a00ff 0%,#8c3dff 100%);
+    box-shadow: 0 8px 24px rgba(106,0,255,.32);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .info-dot{
+    width: 3.8vw; height: 3.8vw; border-radius: 50%;
+    background: #00d1ff;
+    box-shadow: 0 0 0 3px rgba(0,209,255,.25);
+    flex-shrink: 0;
+  }
+  .info-text{ display:flex; flex-direction:column; }
+  .info-title{
+    font-size: 3.2vw;
+    letter-spacing:.08em;
+    text-transform: uppercase;
+    opacity:.9;
+    font-weight:700;
+    margin-bottom: .4vw;
+  }
+  .info-message{
+    font-size: 4vw;
+    font-weight: 600;
+  }
+
+  .boxMoreMessage{
+    height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .box-content-login-info{
+    background-color: #5e17eb;
+    border-radius: 5vw 5vw 0 0;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .box-login{
+    background-color: #fff;
+    border-radius: 5vw 5vw 0 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 4vw 0;
+  }
+  .add-notas{
+    width: 86%;
+    height: 19vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .add-notas img{
+    width: 50%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .add-notas span{
+    width: 50%;
+    font-size: 3.8vw;
+    text-align: center;
+  }
+
+  .box-login-span{
+    font-size: 3.5vw;
+    text-align: left;
+    width: 75%;
+    color: #707070;
+  }
+  .cont-sd{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #c8d0e1;
+    border-radius: 3vw;
+    width: 75%;
+    padding: 2.5vw 3vw 2.5vw 4vw;
+    margin: 3vw 0;
+  }
+  .cont-sd input{
+    width: 100%;
+    font-size: 4vw;
+  }
+
+  /* contraseña: input + botón */
+  .cont-sd-password{ gap: 2vw; }
+  .toggle-pwd{
+    border: 0;
+    outline: 0;
+    background: #ffffff;
+    padding: 1.2vw 3vw;
+    border-radius: 2vw;
+    font-size: 3.2vw;
+    color: #5e17eb;
+    flex-shrink: 0;
+  }
+</style>

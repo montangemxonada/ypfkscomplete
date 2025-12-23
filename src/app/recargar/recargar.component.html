@@ -1,0 +1,37 @@
+<div class="father">
+    <div style="background-color: rgb(116, 34, 132);">
+        <div class="head">
+            <div (click)="home()" style="
+                background-image: url(/assets/atras-icon.svg);
+                background-size: 2.8vw;"></div>
+            <h3>Recargar a</h3>
+            <div (click)="home()"></div>
+        </div>
+        
+    </div>
+    <div class="datos">
+        <input (input)="onChangeNumber($event)" class="numero" placeholder="Número" type="tel" maxlength="9">
+        <span style="color: rgb(128, 128, 128);
+        font-weight: 500;
+        font-size: 3.8vw;">Nuevo número</span>
+        <h3 style="width: 90vw;
+        color: rgb(116, 34, 132);
+        margin: 5vw 0;">Elegir operadora</h3>
+        <div (click)="movistar()">
+            <img src="/assets/LogoMovistar.svg" alt=""> 
+            <h3 style="width: 15vw;">Movistar</h3>
+        </div>
+        <div (click)="claro()">
+            <img src="/assets/LogoClaro.svg" alt=""> 
+            <h3 style="width: 15vw;">Claro</h3>
+        </div>
+        <div (click)="entel()">
+            <img src="/assets/LogoEntel.svg" alt=""> 
+            <h3 style="width: 15vw;">Entel</h3>
+        </div>
+        <div (click)="bitel()">
+            <img src="/assets/LogoBitel.svg" alt=""> 
+            <h3 style="width: 15vw;">Bitel</h3>
+        </div>
+    </div>
+</div>
