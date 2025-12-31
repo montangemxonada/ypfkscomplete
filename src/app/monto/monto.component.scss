@@ -75,6 +75,9 @@
     font-weight: 600;
     font-size: 5vw;
     margin-top: 3vw;
+      white-space: normal;     /* permite salto de línea */
+  overflow: visible;
+  word-break: break-word;
 }
 .numero{
     text-align: center;
@@ -229,4 +232,17 @@
   cursor: pointer;
   opacity: 0;           // invisible
   z-index: 5;
+}
+
+.nombre, .nombre-mostrar, h3.nombre-mostrar {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  word-break: break-word;
+}
+
+/* y al contenedor del nombre (muy importante) */
+.nombre-wrapper, .datos, .alert, .head {
+  overflow: visible !important;
+  height: auto !important;
 }

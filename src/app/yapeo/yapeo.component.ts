@@ -16,9 +16,10 @@ import lottie from 'lottie-web';
 export class YapeoComponent implements OnInit, AfterViewInit {
   @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef;
 
+  // ===== Base =====
   numero: any = "";
   telefono: any = "";
-  nombre: string = "";          // lo que llega por queryParams (lo mantengo por compatibilidad)
+  nombre: string = "";          // compatibilidad (termina siendo igual a nombreMostrar)
   cantidad: string = "";
   numeroaleatoriomostrar: string = "";
   fecha: string = "";
@@ -27,25 +28,33 @@ export class YapeoComponent implements OnInit, AfterViewInit {
   agorita: boolean = false;
   conexion: boolean = false;
 
-  // Servicios
+  // ===== Servicios =====
   titular: string = "";
   servicio: string = "";
   codigoCliente: string = "";
 
-  // Para historial TSFN
+  // ===== TSFN =====
   datos: any[] = [];
 
-  // Flags origen
+  // ===== Flags origen =====
   deNumero: boolean = false;
   deQr: boolean = false;
   deNuevo: boolean = false;
 
-  // ===== ✅ COORDINACIÓN NOMBRE (nuevo) =====
+  // ===== ✅ 3 MODOS NOMBRE =====
+  // 0=corto "Rocio Bay*" 1=iniciales "ROCIO J. BAYLON J." 2=completo
+  nameMode: 0 | 1 | 2 = 0;
+
   nombreFull: string = "";
+  nombreCorto: string = "";
+  nombreIniciales: string = "";
+  nombreMostrar: string = "";   // ESTE se pinta en HTML
+
+  // Compat con esquema viejo (2 modos)
   nombreResumido: string = "";
   mostrarNombreCompleto: boolean = false;
-  nombreMostrar: string = ""; // ESTE es el que se debe pintar SIEMPRE en el HTML
 
+  // ===== Otros =====
   destino: string = '';
   mensaje: any = "";
   aparece_num: boolean = false;
@@ -81,12 +90,26 @@ export class YapeoComponent implements OnInit, AfterViewInit {
     return this.formatNumber(this.numero);
   }
 
+  // ================== NAV ==================
   nuevoYapeo() {
     const numero = this.numero;
-    const nombre = this.nombre;
+    const nombre = this.nombreMostrar || this.nombre;
     const destino = this.destino;
     const deNuevo = true;
-    const queryParams = { deNuevo, numero, nombre, destino };
+
+    // ✅ reenviar también el estado del nombre (3 modos)
+    const queryParams = {
+      deNuevo,
+      numero,
+      destino,
+      nombre, // compat
+
+      nombreFull: this.nombreFull,
+      nombreCorto: this.nombreCorto,
+      nombreIniciales: this.nombreIniciales,
+      nameMode: this.nameMode
+    };
+
     this.router.navigate(['/monto'], { queryParams });
   }
 
@@ -94,88 +117,117 @@ export class YapeoComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/servicios']);
   }
 
-  generarNumeroAleatorio(): void {
+  generarNumeroAleatorio(): string {
     const numeroAleatorio = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     this.numeroaleatoriomostrar = '01' + numeroAleatorio;
+    return this.numeroaleatoriomostrar;
   }
 
+  // ================== INIT ==================
   ngOnInit() {
     const index = Math.floor(Math.random() * this.imagenes.length);
     this.imagenSeleccionada = this.imagenes[index];
 
     this.route.queryParams.subscribe(params => {
-      this.numeroaleatoriomostrar = params['numeroaleatoriomostrar'] || this.generarNumeroAleatorio();
+      // ==== base ====
       this.codigoSeguridad = params['codigoSeguridad'];
-
-      // voucher viene string "true"/"false"
       this.voucher = params['voucher'] === 'true';
 
-      // base
-      this.nombre = params['nombre'] || '';
-      this.titular = params['titular'] || '';
-      this.servicio = params['servicio'] || '';
-      this.codigoCliente = params['codigoCliente'] || '';
       this.numero = params['numero'] || '';
       this.destino = params['destino'] || '';
       this.mensaje = params['mensaje'] || '';
+      this.titular = params['titular'] || '';
+      this.servicio = params['servicio'] || '';
+      this.codigoCliente = params['codigoCliente'] || '';
 
-      // ===== ✅ Flags (convertir a boolean real) =====
+      // ==== flags reales ====
       this.deNumero = params['deNumero'] === true || params['deNumero'] === 'true';
       this.deQr     = params['deQr'] === true || params['deQr'] === 'true';
       this.deNuevo  = params['deNuevo'] === true || params['deNuevo'] === 'true';
 
-      // ===== ✅ COORDINACIÓN NOMBRE (leer params y decidir) =====
-      this.mostrarNombreCompleto =
-        params['mostrarNombreCompleto'] === true || params['mostrarNombreCompleto'] === 'true';
+      // ==== numero aleatorio mostrar ====
+      this.numeroaleatoriomostrar = params['numeroaleatoriomostrar'] || this.generarNumeroAleatorio();
 
-      this.nombreFull = (params['nombreFull'] || this.nombre || '').toString();
-      this.nombreResumido = (params['nombreResumido'] || this.formatearNombre(this.nombreFull) || '').toString();
-
-      // Si NO vinieron esos params, al menos respeta lo que venga en "nombre"
-      // y úsalo como nombreMostrar para no re-transformar.
-      if (!params['nombreFull'] && !params['nombreResumido'] && params['nombre']) {
-        this.nombreMostrar = this.nombre;
-      } else {
-        this.nombreMostrar = this.mostrarNombreCompleto ? this.nombreFull : this.nombreResumido;
-        // Mantener compatibilidad: "nombre" también refleja lo que se muestra
-        this.nombre = this.nombreMostrar;
-      }
-
-      // monto
+      // ==== monto ====
       if (params['cantidad']?.includes(".")) {
         this.cantidad = this.formatearCantidad(params['cantidad']);
       } else {
         this.cantidad = params['cantidad'];
       }
 
-      // fecha
-      if (!this.voucher) {
-        this.formatearFecha();
-      } else {
-        this.fecha = params['fecha'];
-      }
+      // ==== fecha ====
+      if (!this.voucher) this.formatearFecha();
+      else this.fecha = params['fecha'];
 
-      // telefono mask
+      // ==== telefono mask ====
       if (this.numero && (Number(this.numero) || this.numero.startsWith('***'))) {
         this.telefono = this.formatNumber(this.numero);
         this.aparece_num = true;
       }
 
-      // Agora
-      if (this.destino && this.destino.startsWith("Agora")) {
-        this.agorita = true;
+      // ==== Agora ====
+      if (this.destino && this.destino.startsWith("Agora")) this.agorita = true;
+
+      // =========================
+      // ✅ NOMBRE: 3 MODOS (nuevo)
+      // =========================
+      // 1) leer nuevo esquema
+      const nameModeParam = params['nameMode'];
+      if (nameModeParam !== undefined && nameModeParam !== null && nameModeParam !== '') {
+        this.nameMode = Number(nameModeParam) as 0 | 1 | 2;
+      } else {
+        this.nameMode = 0;
       }
 
-      // Izi*
-      if (this.nombre.startsWith("Izi*")) {
-        this.mosrtasdklklasd = false;
+      this.nombreFull = (params['nombreFull'] || '').toString();
+      this.nombreCorto = (params['nombreCorto'] || '').toString();
+      this.nombreIniciales = (params['nombreIniciales'] || '').toString();
+
+      // 2) compat viejo (2 estados)
+      this.mostrarNombreCompleto =
+        params['mostrarNombreCompleto'] === true || params['mostrarNombreCompleto'] === 'true';
+
+      this.nombreResumido = (params['nombreResumido'] || '').toString();
+
+      // 3) compat “nombre” suelto
+      this.nombre = (params['nombre'] || '').toString();
+
+      // 4) decidir nombreMostrar (prioridad: nuevo 3-modos > viejo 2-modos > nombre directo)
+      const tiene3 = !!(this.nombreFull || this.nombreCorto || this.nombreIniciales);
+
+      if (tiene3) {
+        // Completar faltantes si llegaron incompletos
+        if (!this.nombreFull && this.nombre) this.nombreFull = this.nombre;
+        if (!this.nombreCorto && this.nombreFull) this.nombreCorto = this.formatearNombre(this.nombreFull);
+        if (!this.nombreIniciales && this.nombreFull) this.nombreIniciales = this.formatoIniciales(this.nombreFull);
+
+        this.nombreMostrar =
+          this.nameMode === 0 ? (this.nombreCorto || this.nombreFull || this.nombre) :
+          this.nameMode === 1 ? (this.nombreIniciales || this.nombreFull || this.nombre) :
+          (this.nombreFull || this.nombre);
+
+      } else if (this.nombreResumido || params['mostrarNombreCompleto'] !== undefined) {
+        // esquema viejo
+        const full = (params['nombreFull'] || this.nombre || '').toString();
+        const resum = (params['nombreResumido'] || this.formatearNombre(full) || '').toString();
+        this.nombreMostrar = this.mostrarNombreCompleto ? full : resum;
+
+      } else {
+        // último recurso: lo que viene en "nombre"
+        this.nombreMostrar = this.nombre;
       }
+
+      // mantener compatibilidad: this.nombre = lo que se muestra
+      this.nombre = this.nombreMostrar;
+
+      // Izi*
+      if (this.nombre.startsWith("Izi*")) this.mosrtasdklklasd = false;
 
       // corr
       const storedCorr = localStorage.getItem('corr');
       this.corr = storedCorr ? JSON.parse(storedCorr) : false;
 
-      // correo / sms / aumentar yapeos (tu lógica original)
+      // ================== MAIL / SMS / AUMENTAR (tu lógica) ==================
       if (this.voucher === false) {
         const titular = localStorage.getItem("titular");
         const email_usuario = localStorage.getItem("email_usuario");
@@ -184,20 +236,20 @@ export class YapeoComponent implements OnInit, AfterViewInit {
         if (this.corr && titular && email_usuario && user_data) {
           const data = JSON.parse(user_data);
           const cantidadFormateada = this.formatearCantidadU(this.cantidad);
+
           this.api.sendMail(
             data.usuario.username,
             data.usuario.password,
             data.usuario.seller_id,
             email_usuario,
-            this.nombre, // aquí queda coherente con nombreMostrar
+            this.nombre, // ✅ coherente con nombreMostrar
             this.numero,
             this.numeroaleatoriomostrar,
             this.fecha,
             "XXX XXX 850",
             cantidadFormateada,
             titular
-          ).subscribe((response: any) => {
-            console.log(response);
+          ).subscribe(() => {
             this.corr = false;
             localStorage.setItem('corr', JSON.stringify(this.corr));
           });
@@ -216,7 +268,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
               if (data.usuario?.username && data.usuario?.password && data.usuario?.seller_id && titular) {
                 const message = `${this.destino}! ${titular} te envio S/ ${this.cantidad}`;
                 this.api.senmdSms(data.usuario.username, data.usuario.password, data.usuario.seller_id, this.numero, message)
-                  .subscribe((response) => console.log(response));
+                  .subscribe();
               }
             }
           }
@@ -236,7 +288,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
                 this.destino,
                 cantidadFormateada,
                 this.fecha
-              ).subscribe((response) => console.log(response));
+              ).subscribe();
             }
           }
         }
@@ -255,6 +307,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // ================== TSFN ==================
   almacenarTSFN() {
     let montoFormateado: string;
     if (this.mensaje === 'Auto') {
@@ -265,7 +318,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
 
     if (this.voucher == undefined || this.voucher == false) {
       const nuevoDato = {
-        nombre: this.nombre, // ya viene coherente con nombreMostrar
+        nombre: this.nombre,
         fechaduplicada: this.fecha,
         montoFormateado: montoFormateado,
         destino: this.destino,
@@ -316,18 +369,13 @@ export class YapeoComponent implements OnInit, AfterViewInit {
             data.usuario.seller_id,
             this.numero,
             nuevoDato2
-          ).subscribe({
-            next: (response) => {
-              if (response.success) console.log("Dato enviado correctamente:", response.message);
-              else console.warn("Error del servidor:", response.error);
-            },
-            error: (err) => console.error("Error de red o servidor:", err)
-          });
+          ).subscribe();
         }
       }
     }
   }
 
+  // ================== HELPERS ==================
   separarFecha(fecha: string, parte: number): string {
     if (!fecha) return '';
     const partes = fecha.split(' - ');
@@ -346,7 +394,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
   }
 
   formatNumber(numero: string): string {
-    const cleanNumber = numero.replace(/%20/g, '').replace(/\s/g, '');
+    const cleanNumber = (numero || '').toString().replace(/%20/g, '').replace(/\s/g, '');
     if (cleanNumber.length < 3) return cleanNumber;
     const lastThreeDigits = cleanNumber.slice(-3);
     return `*** *** ${lastThreeDigits}`;
@@ -354,6 +402,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
 
   paraFloatxd(value: any): any {
     if (value) return parseFloat(value);
+    return 0;
   }
 
   alerta() {
@@ -417,7 +466,7 @@ export class YapeoComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // ===== tu resumidor original (lo dejo por compatibilidad) =====
+  // ===== Corto default tipo yape (fallback) =====
   formatearNombre(nombreCompleto: string): string {
     if (!nombreCompleto) return '';
 
@@ -431,21 +480,27 @@ export class YapeoComponent implements OnInit, AfterViewInit {
     if (partes.length < 2) return limpio;
 
     const primerNombre = partes[0];
-    let primerApellido = '';
-
-    for (let i = 1; i < partes.length; i++) {
-      if (partes[i].length > 1) {
-        primerApellido = partes[i];
-        break;
-      }
-    }
-
-    if (!primerApellido) return primerNombre;
+    const primerApellido = partes[partes.length - 2] || '';
 
     const nombreCapitalizado = primerNombre.charAt(0).toUpperCase() + primerNombre.slice(1);
     const apellidoCorto = primerApellido.substring(0, 3);
     const apellidoCapitalizado = apellidoCorto.charAt(0).toUpperCase() + apellidoCorto.slice(1);
 
     return `${nombreCapitalizado} ${apellidoCapitalizado}*`;
+  }
+
+  /** "ROCIO JACKELINE BAYLON JIMENEZ" -> "ROCIO J. BAYLON J." */
+  private formatoIniciales(full: string): string {
+    const parts = (full || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return '';
+    if (parts.length === 1) return parts[0].toUpperCase();
+    if (parts.length === 2) return `${parts[0].toUpperCase()} ${parts[1][0].toUpperCase()}.`;
+
+    const firstName = parts[0].toUpperCase();
+    const middle = parts.slice(1, -2).map(p => (p[0] ? p[0].toUpperCase() + '.' : '')).join(' ').trim();
+    const last1 = (parts[parts.length - 2] || '').toUpperCase();
+    const last2Init = (parts[parts.length - 1] || '')[0]?.toUpperCase();
+
+    return `${firstName} ${middle ? middle + ' ' : ''}${last1} ${last2Init ? last2Init + '.' : ''}`.trim();
   }
 }

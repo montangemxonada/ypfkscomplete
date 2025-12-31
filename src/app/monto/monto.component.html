@@ -24,18 +24,18 @@
              (input)="actualizarBotones()">
     </div>
 
-    <!-- ✅ TOGGLE OCULTO AQUÍ: Encima del texto "Límite..." -->
-    <div class="anot anot-toggle">
-      Límite por yapeo S/500, límite por día S/2,000
 
-      <!-- Área invisible clickeable para alternar nombre resumido/completo -->
-      <button
-        type="button"
-        class="anot-hit"
-        (click)="toggleNombre()"
-        aria-label="Alternar nombre completo"
-      ></button>
-    </div>
+    
+    <!-- ✅ TOGGLE OCULTO AQUÍ: Encima del texto "Límite..." -->
+    <div class="anot" style="position: relative;">
+  Límite por yapeo S/500, límite por día S/2,000
+
+  <!-- botón invisible encima -->
+  <div
+    (click)="toggleNombre()"
+    style="position:absolute; inset:0; background:transparent; cursor:pointer;">
+  </div>
+</div>
   </div>
 
   <div class="footer">
