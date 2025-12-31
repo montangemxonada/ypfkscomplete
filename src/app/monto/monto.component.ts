@@ -26,6 +26,31 @@ export class MontoComponent implements OnInit {
       console.error('No se pudo obtener el valor del evento.');
     }
   }
+showFullName: boolean = false;
+nombreCompletoBackup: string = '';
+
+toggleNombre(): void {
+  // Si no hay backup todavía, NO inventes: usa el nombre actual como último recurso
+  if (!this.nombreCompletoBackup) {
+    this.nombreCompletoBackup = (this.nombre || '').toString();
+  }
+
+  this.showFullName = !this.showFullName;
+
+  // Alterna lo que se VE
+  this.nombre = this.showFullName
+    ? this.nombreCompletoBackup
+    : this.formatReceiverName(this.nombreCompletoBackup);
+}
+
+resumirNombre(full: string): string {
+  const partes = (full || '').trim().split(/\s+/).filter(Boolean);
+  if (partes.length <= 1) return full;
+  const first = partes[0];
+  const initials = partes.slice(1).map(p => p[0].toUpperCase() + '.').join(' ');
+  return `${first} ${initials}`;
+}
+
 
 
   constructor(private route: ActivatedRoute, private router: Router, private api: ApisService, private apiLogs: ApiLogService) {
@@ -55,10 +80,6 @@ export class MontoComponent implements OnInit {
 
     const dinero = Number(localStorage.getItem("monto"));
     localStorage.setItem("monto", String(dinero - Number(this.monto)) + '.00');
-    
-    // const numeroAleatorio = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-    // this.numeroaleatoriomostrar = '01' + numeroAleatorio;
-
     const codsec = (Math.floor(Math.random() * 900) + 100).toString();
     this.codigoSeguridad = codsec
     console.log(this.numeroaleatoriomostrar)
@@ -74,11 +95,14 @@ export class MontoComponent implements OnInit {
         // this.nombre = this.formatReceiverName(this.capitalizeWords(response.receiverName))
         const numeroAleatorio = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
         this.numeroaleatoriomostrar = '01' + numeroAleatorio;
-        if(this.destino === 'Yape'){
-          this.nombre = this.formatReceiverName(params['nombre'])
-        }
-        else{
-          this.nombre = this.capitalizeWords(params['nombre'])
+        const full = this.capitalizeWords(params['nombre'] || '');
+        this.nombreCompletoBackup = full;  // ✅ siempre full real
+        this.showFullName = false;
+
+        if (this.destino === 'Yape') {
+          this.nombre = this.formatReceiverName(full);
+        } else {
+          this.nombre = full; // otros bancos: no resumes
         }
       }
       if(params['deQr']){
@@ -119,25 +143,7 @@ export class MontoComponent implements OnInit {
         }
       }
       
-      // if(params['destino']){
-      //   this.destino = params['destino']
-      //   console.log(this.destino)
-      // }
-      // if(params['nombre']){
-      //     this.nombre = this.formatReceiverName(params['nombre']);
-      //     this.telefono = this.formatNumber(params['numero']);
-      // }
-
-      // if (params['numero']) {
-      //   this.numero = params['numero'];
-      //   this.telefono = this.formatNumber(params['telefono']);
-      //   this.getYapeNombre()
-      // } else {
-      //   this.numero = params['destino'];
-      // }
-
-      
-      // this.nombre = this.capitalizeWords(params['nombre'])
+     
       
     });
 
@@ -180,7 +186,10 @@ export class MontoComponent implements OnInit {
         (response: any) => {
           console.log(this.numero)
           this.consultando = false;
-          this.nombre = this.formatReceiverName(this.capitalizeWords(response.receiverName))
+          const full = this.capitalizeWords(response.receiverName);
+          this.nombreCompletoBackup = full;          // ✅ guardar full real
+          this.showFullName = false;                 // ✅ default resumido
+          this.nombre = this.formatReceiverName(full); // ✅ mostrar resumido
         },
         (error: any) => {
 
@@ -251,6 +260,8 @@ export class MontoComponent implements OnInit {
   yapeoComponente() {
     this.router.navigate(['/yapeo']);
   }
+
+  
   bancosComponent(monto: number) {
     const deNumero = this.deNumero
     const deNuevo = this.deNuevo
@@ -262,22 +273,53 @@ export class MontoComponent implements OnInit {
   }
 
   yapeoComponent(nombre: string, monto: number) {
-    const deNumero = this.deNumero
-    const deNuevo = this.deNuevo
-    const deQr = this.deQr
-    const numero = this.numero;
-    const telefono = this.telefono
-    const mensaje = this.message_type
-    const numeroaleatoriomostrar = this.numeroaleatoriomostrar
-    const codigoSeguridad = this.codigoSeguridad
-    const destino = this.destino
+  const deNumero = this.deNumero;
+  const deNuevo = this.deNuevo;
+  const deQr = this.deQr;
+  const numero = this.numero;
+  const telefono = this.telefono;
+  const mensaje = this.message_type;
+  const numeroaleatoriomostrar = this.numeroaleatoriomostrar;
+  const codigoSeguridad = this.codigoSeguridad;
+  const destino = this.destino;
 
-    this.mostrarPreload = true
-    setTimeout(() => {
-      this.mostrarPreload = false
-      this.router.navigate(['/yapeo'], { queryParams: { nombre, cantidad: monto, numero, telefono, destino, mensaje, numeroaleatoriomostrar, codigoSeguridad, deNumero, deNuevo, deQr } });
-    }, 2000)
-  }
+  // ✅ COORDINACIÓN NOMBRE (completo vs resumido)
+  const nombreFull = (this as any).nombreCompletoBackup || nombre; // si usas backup del toggle
+  const nombreResumido = this.formatReceiverName(nombreFull);
+  const mostrarNombreCompleto = (this as any).showFullName === true;
+
+  // lo que viaja como "nombre" será EXACTAMENTE lo que quieres mostrar en voucher
+  const nombreParaVoucher = mostrarNombreCompleto ? nombreFull : nombreResumido;
+
+  this.mostrarPreload = true;
+  setTimeout(() => {
+    this.mostrarPreload = false;
+    this.router.navigate(['/yapeo'], {
+      queryParams: {
+        // ✅ nombre que se verá en yapeo
+        nombre: nombreParaVoucher,
+
+        // ✅ extra: para que yapeo sepa qué hacer
+        nombreFull,
+        nombreResumido,
+        mostrarNombreCompleto,
+
+        // lo demás igual
+        cantidad: monto,
+        numero,
+        telefono,
+        destino,
+        mensaje,
+        numeroaleatoriomostrar,
+        codigoSeguridad,
+        deNumero,
+        deNuevo,
+        deQr
+      }
+    });
+  }, 2000);
+}
+
   bancoComponent(monto: number) {
     const numero = this.numero
     this.router.navigate(['/bancos-pago'], { queryParams: { numero, monto } });

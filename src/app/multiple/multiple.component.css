@@ -1,61 +1,116 @@
+/* ================================
+   CONTENEDOR PRINCIPAL
+================================ */
 .bienvenida-box{
     background-image: url(/assets/iconicsnew/fondo-total.jpg);
+    background-size: cover;
+    background-position: center;
     height: 100vh;
     width: 100vw;
+    animation: fadeInApp 0.7s ease-out forwards;
 }
+
+/* ================================
+   HEADER SUPERIOR
+================================ */
 .opciones-top{
     height: 24vh;
     background-image: url(/assets/iconicsnew/opciones-fondo.png);
-    background-color: transparent;
     background-position: center top;
     background-repeat: no-repeat;
     background-size: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: slideDown 0.6s ease-out forwards;
 }
+
+/* Botón atrás */
 .opciones-top div:nth-of-type(1){
     height: 7vh;
     width: 90%;
     background-image: url(/assets/iconicsnew/atras-cuenta.svg);
-    background-color: transparent;
     background-position: left;
     background-repeat: no-repeat;
     background-size: contain;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
 }
+
+.opciones-top div:nth-of-type(1):active{
+    transform: scale(.9);
+    opacity: .7;
+}
+
+/* Textos */
 .opciones-top span{
     width: 80%;
     text-align: left;
     color: #fff;
+    text-shadow: 0 .5vw 1vw rgba(0,0,0,.25);
 }
+
+/* ================================
+   CONTENIDO BLANCO
+================================ */
 .content-box{
     border-radius: 6vw 6vw 0 0;
     background-color: #fff;
     height: calc(100vh - 24vh);
+    animation: slideUp 0.7s ease-out forwards;
+    box-shadow: 0 -1vw 3vw rgba(0,0,0,.15);
 }
+
+/* Barra superior */
 .bar{
     width: 50vw;
-    height: 2vw;
-    background-color: #000;
+    height: 1.8vw;
+    background: linear-gradient(90deg,#bbb,#666,#bbb);
     border-radius: 3vw;
-    margin-bottom: 2vw;
+    margin-bottom: 3vw;
+    opacity: .7;
 }
+
+/* ================================
+   BOTONES / OPCIONES
+================================ */
 .box{
     width: 100%;
-    height: 6vh;
-    margin-top: 1.5vh;
-    box-shadow: 0vw 0.2vw 0.5vw 0.1vw #d8d8d8;
+    height: 6.5vh;
+    margin-top: 1.8vh;
     border-radius: 10vw;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 .6vw 1.5vw rgba(0,0,0,.18);
+    cursor: pointer;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: optionFadeUp .5s ease forwards;
 }
-.cel{
-    background-color: #00b8ff;
+
+/* delay automático por orden */
+.box:nth-child(2){ animation-delay: .1s; }
+.box:nth-child(3){ animation-delay: .2s; }
+.box:nth-child(4){ animation-delay: .3s; }
+.box:nth-child(5){ animation-delay: .4s; }
+
+.box:active{
+    transform: scale(.96);
+    box-shadow: 0 .2vw .6vw rgba(0,0,0,.25);
 }
-.cel div{
-    border: .5vw solid #00b8ff;
-}
+
+/* ================================
+   COLORES
+================================ */
 .mor{
-    background-color: #5e17eb;
+    background: linear-gradient(135deg,#5e17eb,#7a3cff);
 }
-.mor div{
-    border: .5vw solid #5e17eb;
+
+.cel{
+    background: linear-gradient(135deg,#00b8ff,#00d0ff);
 }
+
+/* Iconos */
 .box div{
     width: 6vh;
     height: 6vh;
@@ -64,7 +119,15 @@
     background-position: center;
     background-size: 65%;
     background-repeat: no-repeat;
+    margin-left: .8vh;
+    box-shadow: 0 .4vw .8vw rgba(0,0,0,.2);
 }
+
+/* Borde según color */
+.mor div{ border: .5vw solid #5e17eb; }
+.cel div{ border: .5vw solid #00b8ff; }
+
+/* Texto botón */
 .box span{
     width: calc(100% - 6vh);
     font-size: 2vh;
@@ -72,4 +135,57 @@
     text-align: center;
     color: #fff;
     text-transform: uppercase;
+    letter-spacing: .1vh;
+}
+
+/* ================================
+   ANIMACIONES
+================================ */
+@keyframes fadeInApp{
+    from{ opacity:0 }
+    to{ opacity:1 }
+}
+
+@keyframes slideDown{
+    from{
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp{
+    from{
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes optionFadeUp{
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ================================
+   ANIMACIÓN DE SALIDA (OPCIONAL)
+   activar con clase .exit
+================================ */
+.bienvenida-box.exit{
+    animation: fadeOutApp .4s ease forwards;
+}
+
+@keyframes fadeOutApp{
+    to{
+        opacity: 0;
+        transform: scale(.98);
+    }
 }

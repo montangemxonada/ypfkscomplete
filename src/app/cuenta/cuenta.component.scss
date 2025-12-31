@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+/* =========================================================
+   BASE ORIGINAL (TU CSS)
+========================================================= */
+
 .father{
     background-color:  transparent;
     background-image: url(/assets/iconicsnew/fondo-total.jpg);
@@ -287,9 +291,6 @@
 	}
 }
 
-
-
-
 /**/
 .data input{
     height: 4vh;
@@ -479,8 +480,245 @@
     background: #f2f2f2;
   }
   
-  
   /* Estado “loading”: atenúa el título y bloquea botón */
   .modal-card.loading .modal-title,
   .modal-card.loading .modal-message { opacity: .9 }
   .modal-card.loading .modal-footer { display: none }
+
+
+/* =========================================================
+   MEJORAS PRO (1,2,3,4) — SIN CAMBIAR HTML/FUNCIONES
+========================================================= */
+
+/* --------- suavidad general --------- */
+.home, .cantidades > div, .barra, .circulo, .icon, input, button, .atras-cuenta {
+  transition: transform .22s cubic-bezier(.2,.9,.2,1),
+              box-shadow .22s ease,
+              filter .22s ease,
+              background-color .22s ease,
+              border-color .22s ease,
+              opacity .22s ease;
+}
+
+/* --------- entrada fluida por bloques (se nota al abrir) --------- */
+.father > div{
+  animation: fadeUp .45s cubic-bezier(.16,1,.3,1) both;
+}
+.father > div:nth-child(1){ animation-delay: .04s }
+.father > div:nth-child(2){ animation-delay: .09s }
+.father > div:nth-child(3){ animation-delay: .14s }
+.father > div:nth-child(4){ animation-delay: .19s }
+
+@keyframes fadeUp{
+  from{ opacity:0; transform: translateY(14px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+/* --------- cards: lift + press (elegante, no exagerado) --------- */
+.home{
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,.38);
+  border: .25vw solid rgba(255,255,255,.06);
+}
+.home:active{
+  transform: scale(.975);
+  box-shadow: 0 14px 34px rgba(0,0,0,.52);
+}
+
+.cantidades > div{
+  box-shadow: 0 8px 18px rgba(0,0,0,.32);
+}
+.cantidades > div:active{
+  transform: scale(.985);
+  box-shadow: 0 14px 30px rgba(0,0,0,.45);
+}
+
+/* --------- mejor lectura (súper sutil) --------- */
+.servicio-titulo, .servicio-descri, .nombre span, .cantidades span{
+  text-shadow: 0 2px 14px rgba(0,0,0,.35);
+}
+
+/* =========================================================
+   (1) TOGGLE iOS REAL (misma estructura, full fluido)
+========================================================= */
+
+/* Barra como “píldora” con profundidad */
+.barra{
+  position: relative;
+  padding: .35vw;             /* mantiene altura, solo relleno visual */
+  box-sizing: border-box;
+  background-color: #3b3b3b;  /* off más realista */
+  box-shadow: inset 0 0 0 .25vw rgba(255,255,255,.05),
+              inset 0 -0.25vw 0 rgba(0,0,0,.25);
+}
+
+/* Cuando está ON (tu clase existente) */
+.barra-select{
+  background-color: rgba(255,255,255,.95);
+  box-shadow: inset 0 0 0 .25vw rgba(0,0,0,.06),
+              0 10px 20px rgba(0,0,0,.28);
+}
+
+/* Circulo con “tapa” tipo iOS */
+.circulo{
+  margin: 0;
+  background-color: #fff;
+  box-shadow: 0 10px 18px rgba(0,0,0,.28);
+  transform: translateX(.2vw);
+  transition: transform .34s cubic-bezier(.16,1,.3,1), background-color .22s ease;
+}
+
+/* Movimiento real (no depende de justify-content visual) */
+.barra-select .circulo{
+  transform: translateX(7.05vw); /* calibrado para tu 12vw */
+  background-color: #5e17eb;
+}
+.barra-no-select .circulo{
+  transform: translateX(.2vw);
+  background-color: #fff;
+}
+
+/* micro “spring” al tocar el toggle */
+.barra:active .circulo{
+  transform: translateX(.2vw) scale(.95);
+}
+.barra-select:active .circulo{
+  transform: translateX(7.05vw) scale(.95);
+}
+
+/* =========================================================
+   (2) ANIMACIÓN AL ACTIVAR SERVICIO (pulse/glow suave)
+========================================================= */
+
+/* Cuando una card está activa (tu fondo-select), que “respire” */
+.fondo-select{
+  position: relative;
+  box-shadow: 0 12px 28px rgba(94,23,235,.35);
+  animation: glowPulse 1.9s ease-in-out infinite;
+}
+
+/* brillo suave (no molesta) */
+@keyframes glowPulse{
+  0%   { filter: brightness(1); }
+  50%  { filter: brightness(1.05); }
+  100% { filter: brightness(1); }
+}
+
+/* Un “shine” diagonal MUY sutil para que se vea premium */
+.fondo-select::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: linear-gradient(120deg,
+    rgba(255,255,255,0) 35%,
+    rgba(255,255,255,.10) 50%,
+    rgba(255,255,255,0) 65%);
+  transform: translateX(-60%) rotate(8deg);
+  animation: sheen 2.8s var(--ease, cubic-bezier(.2,.9,.2,1)) infinite;
+  pointer-events:none;
+}
+@keyframes sheen{
+  0%   { transform: translateX(-60%) rotate(8deg); opacity:.35; }
+  45%  { opacity:.30; }
+  100% { transform: translateX(60%) rotate(8deg); opacity:.35; }
+}
+
+/* =========================================================
+   (3) GLASS REAL SOLO EN ACTIVAS
+========================================================= */
+.fondo-select{
+  background-color: rgba(94,23,235,.78) !important; /* sigue morado, pero “glass” */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: .25vw solid rgba(255,255,255,.18);
+}
+
+/* Las no activas se quedan igual, pero con un borde más fino */
+.fondo-no-select{
+  border: .25vw solid rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   Inputs: focus más elegante (sin cambiar layout)
+========================================================= */
+.nombre input:focus,
+.cantidades input:focus,
+.home input:focus{
+  box-shadow: 0 0 0 .35vw rgba(94,23,235,.35);
+}
+
+/* =========================================================
+   Iconos: micro feedback al tocar card
+========================================================= */
+.icon{
+  box-shadow: 0 10px 18px rgba(0,0,0,.22);
+}
+.home:active .icon{
+  transform: scale(.88) rotate(-6deg);
+}
+
+/* =========================================================
+   Botón Registrar: feedback nativo
+========================================================= */
+button{
+  box-shadow: 0 10px 24px rgba(0,0,0,.38);
+}
+button:active{
+  transform: scale(.965);
+  box-shadow: 0 14px 32px rgba(0,0,0,.45);
+}
+
+/* =========================================================
+   (4) HAPTIC VISUAL (SHAKE) EN ERRORES / INPUTS INVÁLIDOS
+   - Sin cambiar HTML: Angular suele poner .ng-invalid.ng-touched
+========================================================= */
+@keyframes hapticShake{
+  0% { transform: translateX(0); }
+  15% { transform: translateX(-1.2vw); }
+  30% { transform: translateX(1.1vw); }
+  45% { transform: translateX(-0.9vw); }
+  60% { transform: translateX(0.7vw); }
+  75% { transform: translateX(-0.5vw); }
+  100% { transform: translateX(0); }
+}
+
+/* Si Angular marca inválido y tocado */
+input.ng-invalid.ng-touched{
+  box-shadow: 0 0 0 .35vw rgba(255, 70, 70, .28) !important;
+  animation: hapticShake .28s ease both;
+}
+
+/* También funciona con HTML5 :invalid (por si usas required/maxlength/etc) */
+input:invalid:focus{
+  box-shadow: 0 0 0 .35vw rgba(255, 70, 70, .22) !important;
+  animation: hapticShake .28s ease both;
+}
+
+/* Hook opcional para modal si algún día le agregas class="error"
+   (NO rompe nada si no existe) */
+.modal-card.error{
+  animation: hapticShake .28s ease both;
+  border-color: rgba(255, 70, 70, .35);
+}
+
+/* =========================================================
+   Mejoras pequeñas al back y “tap”
+========================================================= */
+.atras-cuenta{
+  opacity: .92;
+}
+.atras-cuenta:active{
+  transform: translateX(-1.2vw);
+  opacity: 1;
+}
+
+/* =========================================================
+   Reduce motion (por si el celular lo pide)
+========================================================= */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation: none !important;
+    transition: none !important;
+  }
+}

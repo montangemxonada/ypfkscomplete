@@ -1,18 +1,28 @@
-
-
-
 <div class="background-all w-full h-screen" style="background: linear-gradient(rgb(117, 35, 134), 40%, rgb(62 15 98));">
+
   <div class="ayuda">
     <img src="/assets/soporte-icon.svg" alt="icon" />
     <label>Ayuda</label>
   </div>
 
+  <!-- QR -->
   <div (click)="noConexion()" class="data">
-    <img src="/assets/qrcode.png" alt="qr" />
+    <img class="qr-img" src="/assets/qrcode.png" alt="qr" />
+
+    <!-- IMAGEN DEBAJO DEL QR (NUEVA) -->
+    <img
+      class="qr-extra-img"
+      src="https://res.cloudinary.com/dzriliwdj/image/upload/v1767150790/unnamed_-_Editada_wtg6no.png"
+      alt=""
+    />
   </div>
+
+  <!-- TECLADO -->
   <div class="teclado">
-    <!-- <span style="font-size: 2.5vh; color: rgb(116, 34, 132)">Ingresa tu clave Yape</span> -->
-    <span *ngIf="clave.length === 0" class="ingresa-clave" style="font-size: 5.5vw; margin: 0;">Ingresa tu clave</span>
+    <span *ngIf="clave.length === 0" class="ingresa-clave" style="font-size: 5.5vw; margin: 0;">
+      Ingresa tu clave
+    </span>
+
     <div *ngIf="clave.length > 0" class="points">
       <div *ngFor="let point of points" class="point">
         <div
@@ -25,114 +35,50 @@
         ></div>
       </div>
     </div>
+
     <div class="teclas">
       <div *ngFor="let tecla of teclas">
         <button (click)="type(false, tecla.value)">{{ tecla.label }}</button>
       </div>
 
-      <div class="imganit">
-      </div>
+      <div class="imganit"></div>
 
       <div>
         <button (click)="type(false, teclaCentroInferior.value)">
           {{ teclaCentroInferior.label }}
         </button>
       </div>
-      
+
       <div (click)="this.clave.length > -1 ? type(true, '') : null">
-        <i
-          class="fas fa-backspace"
-          style="font-size: 2.5vh; color: rgb(101 101 101 / 56%)"
-        ></i>
+        <i class="fas fa-backspace" style="font-size: 2.5vh; color: rgb(101 101 101 / 56%)"></i>
       </div>
     </div>
+
     <label class="b mt-5">¿OLVIDASTE TU CLAVE?</label>
   </div>
 </div>
+
+<!-- PRELOAD -->
 <app-preload *ngIf="mostrarPreload" palabra="Validando datos..."></app-preload>
+
+<!-- SPLASH / ANIMACIÓN INICIO -->
 <div class="precarga w-full h-screen" *ngIf="precarga">
-  <img style="width:28%" src="/assets/LogoYape.svg" alt="">
-  <div>
+  <img class="logo-yape" src="/assets/LogoYape.svg" alt="">
+  <div class="bcp-box">
     <span>Con el respaldo del</span>
-    <img src="/assets/Logo-Bcp.svg" alt="">
+    <img class="logo-bcp" src="/assets/Logo-Bcp.svg" alt="">
   </div>
 </div>
+
+<!-- SIN CONEXIÓN -->
 <div *ngIf="conexion" class="noConexion">
   <div style="width: 95%;" class="flex flex-column align-items-center">
-    
     <img (click)="yeConexion()" src="/assets/noConexion.svg" alt="" />
-    
-    <p
-        style="color:#E1CCE3;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;">
-
-        No estás conectado a internet</p>
-    <p 
-        style="color:#E1CCE3; 
-        font-size: 16px;
-        text-align: center;">
-        
-        Verifica que tu teléfono esté conectado a una red wifi o a datos móviles.
-    </p> 
+    <p style="color:#E1CCE3;font-size:20px;font-weight:bold;text-align:center;">
+      No estás conectado a internet
+    </p>
+    <p style="color:#E1CCE3;font-size:16px;text-align:center;">
+      Verifica que tu teléfono esté conectado a una red wifi o a datos móviles.
+    </p>
   </div>
 </div>
-<style>
-.precarga{
-  position: fixed;
-  top: 0;
-  margin: 0;
-  background-color: rgb(116, 34, 132);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 1s ease;
-  opacity: 1;
-}
-
-.precarga.oculta {
-  opacity: 0;
-}
-.precarga div{
-  width: 100vw;
-  height: 30vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  bottom: 0;
-}
-@font-face {
-    font-family: 'FlexoSoft-Regular';
-    src: local('FlexoSoft-Regular'), url('/assets/fonts/FlexoSoft-Regular.woff2') format('truetype');
-}
-.precarga div span{
-  font-size: 4vw;
-  font-weight: 600;
-  color: #c2a4c8;
-  margin: 1vw;
-  font-family: 'FlexoSoft-Regular';
-}
-.precarga div img{
-  width: 22vw;
-  object-fit: contain;
-}
-.noConexion{
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(116, 34, 132);
-}
-.noConexion img{
-    width: 35vw;
-    height: 35vw;
-    object-fit: contain;
-    padding-bottom: 6vw;
-}
-</style>

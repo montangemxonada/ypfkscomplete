@@ -7,39 +7,48 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
+
+/* ZONA QR */
 .data{
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: 37vh;
+    height: 39vh; /* apenas más arriba */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
 }
-.data img {
+
+.qr-img{
     border-radius: 1.5vw;
     width: 40vw;
     background-color: #fff;
     padding: 3vw;
 }
-.data label {
-    margin-top: 2vh;
-    width: 40vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3.7vw;
+
+/* IMAGEN NUEVA DEBAJO DEL QR */
+.qr-extra-img{
+    width: 52vw;
+    max-width: 360px;      /* ahora sí crecerá */
+    object-fit: contain;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+
+    transform: translateY(3vh) scale(2);
+    transform-origin: top center;
 }
-.ayuda {
+
+/* AYUDA */
+.ayuda{
     padding: 2vw;
     width: 25vw;
     background-color: rgba(255, 255, 255, 0.192);
     border-radius: 10vw;
     position: absolute;
-    font-size: small;
     top: 1.5vh;
     right: 1.5vh;
     display: flex;
@@ -47,84 +56,71 @@
     justify-content: center;
     gap: 1vh;
 }
-.ayuda img {
-    width: 5vw;
-}
-.ayuda label {
-    font-size: 3vw;
-}
+
+.ayuda img{ width: 5vw; }
+.ayuda label{ font-size: 3vw; }
+
+/* TECLADO */
 .teclado{
     width: 100%;
     height: 45vh;
     font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     background-color: #fff;
     border-radius: 3vh 3vh 0 0;
     padding-top: 3vh;
 }
-.teclado span {
-    width: 100%;
-    font-size: 4vw;
-    font-weight: 600;
-    margin-top: 2vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 .ingresa-clave{
     color: #742284;
     text-align: center;
 }
+
+/* PUNTOS */
 .points{
     width: 55vw;
     height: 1.5vh;
     margin-top: 2vh;
     display: flex;
-    align-items: center;
     justify-content: space-around;
 }
+
 .point{
     width: 3vw;
     height: 3vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
+
+/* TECLAS */
 .teclas{
     margin-top: 3vh;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
     width: 97%;
     height: 27vh;
     color: black;
 }
-.teclas div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.teclas div{
     width: calc(100% / 3);
-    height:calc(100% / 4);
+    height: calc(100% / 4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.teclas div button {
+
+.teclas div button{
     border: 0;
-    color: black;
-    font-size: 5vw;
     background-color: rgb(221, 221, 221);
-    height: 90%;
-    border-radius: 1vh;
-    width: 92%;
+    font-size: 5vw;
     font-weight: 600;
+    height: 90%;
+    width: 92%;
+    border-radius: 1vh;
 }
-.b {
-    font-size: 1.8vh;
-    font-weight: bold;
-    color: rgb(36,192,181);
-}
+
+/* GIF CENTRO */
 .imganit{
     width: 100%;
     height: 100%;
@@ -132,4 +128,69 @@
     background-repeat: no-repeat;
     background-size: 40%;
     background-position: center;
+}
+
+/* LINK */
+.b{
+    font-size: 1.8vh;
+    font-weight: bold;
+    color: rgb(36,192,181);
+}
+
+/* SPLASH / ANIMACIÓN INICIO */
+.precarga{
+    position: fixed;
+    top: 0;
+    background-color: rgb(116, 34, 132);
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-yape{
+    width: 28%;
+}
+
+/* 🔴 AQUÍ ESTABA EL PROBLEMA */
+.bcp-box{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bcp-box span{
+    font-size: 4vw;      /* antes se veía gigante */
+    font-weight: 600;
+    color: #c2a4c8;
+    margin: 1vw;
+}
+
+.logo-bcp{
+    width: 22vw;         /* 🔥 esto arregla el “BCP enorme” */
+    max-width: 160px;
+    object-fit: contain;
+}
+
+/* SIN CONEXIÓN */
+.noConexion{
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(116, 34, 132);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noConexion img{
+    width: 35vw;
+    height: 35vw;
 }

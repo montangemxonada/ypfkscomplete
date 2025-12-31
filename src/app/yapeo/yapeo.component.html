@@ -1,34 +1,30 @@
 <div class="father" style="padding: 0;">
   <div class="flex justify-content align-items-center">
-    <div class="animation" 
-    [style.background-image]="voucher ? 'url(/assets/LogoYape.svg)' : 'url(/assets/AnimationYape.gif)'" 
-    [style.background-size]="voucher ? '17vw' : '20vw'">  
+    <div class="animation"
+      [style.background-image]="voucher ? 'url(/assets/LogoYape.svg)' : 'url(/assets/AnimationYape.gif)'"
+      [style.background-size]="voucher ? '17vw' : '20vw'">
+    </div>
   </div>
-</div>
+
   <div *ngIf="!voucher" class="animation-serpentina">
     <div id="lottie-container"></div>
   </div>
+
   <div class="inicioCom" (click)="inicioComponente()"></div>
-  <!-- <img *ngIf="voucher" (click)="inicioComponente()" style="width: 2.5vh; object-fit: contain; position: fixed; top: 4vw; left: 4vw;" src="/assets/equis1.svg" alt=""> -->
+
   <div style="display: flex; flex-direction: column; justify-content: center">
-    <!-- [style.min-height]="voucher ? '25vh' : '56vh'" -->
-    <div
-      
-      style="
+    <div style="
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
         margin: 0 0 2vh 0;
-      "
-    >
+      ">
+
+      <!-- =================== NO SERVICIO =================== -->
       <div *ngIf="!servicio || servicio.trim() === ''" style="width: 90%; ">
-        <!-- <div class="border"></div> -->
-        <!-- [style.min-height]="voucher ? '22vh' : '50vh'" -->
-        <div
-          
-          style="
+        <div style="
             border-radius: 5vw;
             background-color: rgb(255 255 255);
             display: flex;
@@ -36,8 +32,7 @@
             align-items: center;
             width: -webkit-fill-available;
             height: auto;
-          "
-        >
+          ">
 
           <div style="width: 90%; padding: 4vw 0;">
             <div class="yapeaste-sup flex justify-content-between align-items-center">
@@ -48,20 +43,20 @@
                 <h3 class="yapeaste">¡Yapeaste!</h3>
               </div>
               <div class="compartir flex justify-content-center align-items-center">
-                <img style="width: 5vw; height: 5vw;" 
-                  src="/assets/compartir-icon.svg" alt="">
-                <h3 style="font-size: 4.2vw;
-                color: #0fcbb3;
-                padding-left: 2vw;">Compartir</h3>
+                <img style="width: 5vw; height: 5vw;" src="/assets/compartir-icon.svg" alt="">
+                <h3 style="font-size: 4.2vw; color: #0fcbb3; padding-left: 2vw;">Compartir</h3>
               </div>
             </div>
+
             <div class="monto">
               <label>S/ <span>{{cantidad}}</span></label>
             </div>
+
+            <!-- ✅ NOMBRE COORDINADO -->
             <label class="nombre">
-              {{ formatearNombre(nombre) }}
+              {{ nombreMostrar }}
             </label>
-            
+
             <div class="paraFecha">
               <img src="/assets/fecha-icon.svg" alt="">
               <span class="fecha">{{ separarFecha(fecha, 1) }}</span>
@@ -69,16 +64,17 @@
               <img src="/assets/hora-icon.svg" alt="">
               <span class="fecha">{{ separarFecha(fecha, 2) }}</span>
             </div>
+
             <div *ngIf="destino !== 'Yape'" class="paraBorder"></div>
+
             <div *ngIf="mensaje && mensaje !== 'Auto'" class="paraMensaje">
               <img src="/assets/mensaje-icon.svg" alt="">
-              <span
-              class="info flex align-items-center justify-content-center"
-              style="font-size: 3.6vw; color: black; font-weight: 400"
-            >
-              {{ mensaje }}
-            </span>
+              <span class="info flex align-items-center justify-content-center"
+                    style="font-size: 3.6vw; color: black; font-weight: 400">
+                {{ mensaje }}
+              </span>
             </div>
+
             <div *ngIf="destino === 'Yape'" class="codSecurity">
               <div class="codP1">
                 <h3>CÓDIGO DE SEGURIDAD</h3>
@@ -90,81 +86,50 @@
                 <div><h3>{{codSeg(numeroaleatoriomostrar, 3)}}</h3></div>
               </div>
             </div>
+
             <div class="codP1 transacc">
               <h3>DATOS DE LA TRANSACCIÓN</h3>
             </div>
+
             <div class="datosts">
               <div *ngIf="destino !=='Izipay' && !deQr && numero?.length >= 3">
                 <h3>Nro. de celular</h3>
                 <h3 style="font-weight: 500;">{{telefonoFormateado}}</h3>
               </div>
+
               <div *ngIf="destino =='Yape' && deQr && numero?.length >= 3">
                 <h3>Nro. de celular</h3>
                 <h3 style="font-weight: 500;">{{telefonoFormateado}}</h3>
               </div>
-              <!-- QR Y YAPE -->
-              <!--  -->
+
               <div *ngIf="destino !=='Izipay'">
                 <h3>Destino</h3>
                 <h3 style="font-weight: 500;">{{destino}}</h3>
               </div>
+
               <div>
                 <h3>Nro. de operación</h3>
                 <h3 *ngIf="destino !=='Izipay'" style="font-weight: 500;">{{numeroaleatoriomostrar}}</h3>
                 <h3 *ngIf="destino =='Izipay'" style="font-weight: 500;">000000000000{{numeroaleatoriomostrar}}</h3>
               </div>
             </div>
-          </div>
-          <!-- <div *ngIf="destino != 'Izipay'" style="width: 100%; padding-top: 2vh">
-            <span
-              *ngIf="mensaje && mensaje !== 'Auto'"
-              class="info flex align-items-center justify-content-center"
-              style="font-size: 3.5vw; color: black; font-weight: 400"
-            >
-              {{ mensaje }}
-            </span>
-            <h3 class="info" *ngIf="mosrtasdklklasd && aparece_num && destino !== 'BBVA Perú'">
-              N° de celular: <span style="color: rgb(0, 0, 0)">{{ telefono }}</span>
-            </h3>
-            <h3 class="info">
-              Destino: <span style="color: rgb(0, 0, 0)">{{ destino }}</span>
-            </h3>
-            <h3 class="info">
-              N° de operación:
-              <span style="color: rgb(0, 0, 0)">{{
-                numeroaleatoriomostrar
-              }}</span>
-            </h3>
-            <div
-              *ngIf="agorita"
-              class="w-full flex flex-column"
-              style="padding: 2vh"
-            >
-              <span style="font-weight: 500">A tener en cuenta</span>
 
-              <span class="mt-2"
-                >Este tipo de yapeo puede necesitar más tiempo para llegar a la
-                entidad destino</span
-              >
-            </div>
-          </div> -->
+          </div>
         </div>
-        <!-- <div class="bordernv"></div> -->
       </div>
+
+      <!-- =================== SERVICIO =================== -->
       <div *ngIf="servicio && servicio.trim() !== ''" style="width: 90%;">
-        <div
-             
-        style="
-        border-radius: 5vw;
-        background-color: rgb(255 255 255);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: .5vh;
-        width: -webkit-fill-available;
-        height: auto;
-      "
-      >
+        <div style="
+          border-radius: 5vw;
+          background-color: rgb(255 255 255);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding-bottom: .5vh;
+          width: -webkit-fill-available;
+          height: auto;
+        ">
 
           <div style="width: 90%; padding: 3vw 0;">
             <div class="yapeaste-sup flex justify-content-between align-items-center">
@@ -172,19 +137,18 @@
                 <h3 class="yapeaste">¡Yapeaste el servicio!</h3>
               </div>
               <div class="compartir flex justify-content-center align-items-center">
-                <img style="width: 5vw; height: 5vw;" 
-                  src="/assets/compartir-icon.svg" alt="">
-                <h3 style="font-size: 4.2vw;
-                color: #0fcbb3;
-                padding-left: 2vw;">Compartir</h3>
+                <img style="width: 5vw; height: 5vw;" src="/assets/compartir-icon.svg" alt="">
+                <h3 style="font-size: 4.2vw; color: #0fcbb3; padding-left: 2vw;">Compartir</h3>
               </div>
             </div>
+
             <div class="monto">
               <label>S/ <span>{{cantidad}}</span></label>
             </div>
-            <label class="nombre">{{
-              nombre
-            }}</label>
+
+            <!-- ✅ NOMBRE COORDINADO (servicio) -->
+            <label class="nombre">{{ nombreMostrar }}</label>
+
             <div class="paraFecha">
               <img src="/assets/fecha-icon.svg" alt="">
               <span class="fecha">{{ separarFecha(fecha, 1) }}</span>
@@ -192,10 +156,13 @@
               <img src="/assets/hora-icon.svg" alt="">
               <span class="fecha">{{ separarFecha(fecha, 2) }}</span>
             </div>
+
             <div class="paraBorder"></div>
+
             <div class="codP1 transacc">
               <h3>DATOS DE LA TRANSACCIÓN</h3>
             </div>
+
             <div class="datosts">
               <div>
                 <h3>Servicio</h3>
@@ -215,30 +182,24 @@
               </div>
             </div>
           </div>
-          
 
         </div>
       </div>
+
     </div>
   </div>
 
   <div *ngIf="voucher" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
     <div *ngIf="deNumero || deNuevo" (click)="nuevoYapeo()" class="botones">
-      <img
-        src="/assets/flecha.svg"
-        alt=""
-      />
+      <img src="/assets/flecha.svg" alt="" />
       <span>Nuevo Yapeo</span>
     </div>
     <div *ngIf="deNumero || deNuevo" (click)="nuevoYapeo()" class="botones nvya mt-2 mb-2">
-      <img
-        src="/assets/soporte-icon.svg"
-        alt=""
-      />
+      <img src="/assets/soporte-icon.svg" alt="" />
       <span>Necesito ayuda</span>
     </div>
   </div>
-  <!-- !voucher && -->
+
   <div *ngIf=" !servicio && servicio.trim() === ''" class="paraServicios">
     <div class="transfp">
       <div class="flex justify-content-start align-items-center">
@@ -256,15 +217,11 @@
       <img style="transform: rotate(180deg); height: 4vw;" src="/assets/atras-blanco.svg" alt="">
     </div>
     <div *ngIf="voucher" (click)="nuevoServicio()" class="botones">
-      <img
-        src="/assets/flecha.svg"
-        alt=""
-      />
+      <img src="/assets/flecha.svg" alt="" />
       <span>YAPEAR OTRO SERVICIO</span>
     </div>
     <div class="serviciosBanner" style="margin-top: 5vw;"></div>
   </div>
-  
 </div>
 
 <div *ngIf="conexion" class="alert">
@@ -272,13 +229,13 @@
     <div (click)="noalerta()" style="position: fixed; top: 0; right: 0; width: 15vw; height: 15vw;"></div>
     <div class="contenedor">
       <svg class="spinner" viewBox="0 0 50 50">
-        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
-        </circle>
+        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
       </svg>
       <h3>Verifica tu conexión a<br>internet</h3>
     </div>
   </div>
 </div>
+
 <style>
   .transfp{
     width: 90%;

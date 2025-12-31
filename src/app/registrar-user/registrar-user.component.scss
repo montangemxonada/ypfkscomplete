@@ -1,23 +1,286 @@
-.icaja{
-    color: rgb(255, 255, 255);
-    border: 0.3vw solid rgb(255, 255, 255);
-    border-radius: 2vw;
-    margin: 4vw 0;
+/* =========================================================
+   RESET
+========================================================= */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-h3{
-    color: rgb(255, 255, 255);
-    font-weight: 500;
-    font-size: medium;
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #000;
 }
-.bsolicitar{
-    height: 5.5vh; 
-    width: 60vw;
-    background-color: #5e17eb;
-    border-radius: 2vw;
-    color: rgb(255, 255, 255);
-    border: 0;
-    font-size: 4vw;
-    font-weight: 600;
-    margin-top: 4vw;
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
+.contain-user-login {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(94,23,235,.45), transparent 48%),
+    url('/assets/iconicsnew/fondo-total.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  animation: screenFade .5s ease-out;
+}
+
+@keyframes screenFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* =========================================================
+   BOTÓN ATRÁS
+========================================================= */
+.btn-atras {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  padding-left: 4vw;
+}
+
+.btn-atras img {
+  width: 12vw;
+  height: 12vw;
+  transition: transform .15s ease, opacity .15s ease;
+}
+
+.btn-atras img:active {
+  transform: scale(.92);
+  opacity: .8;
+}
+
+/* =========================================================
+   PANEL INFERIOR
+========================================================= */
+.boxMoreMessage {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.box-content-login-info {
+  width: 100%;
+  min-height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(94,23,235,.9),
+    rgba(50,12,160,.96)
+  );
+  backdrop-filter: blur(18px);
+  border-radius: 6vw 6vw 0 0;
+  box-shadow: 0 -30px 80px rgba(0,0,0,.55);
+  animation: panelUp .55s ease-out;
+}
+
+@keyframes panelUp {
+  from { transform: translateY(14px); opacity: .85; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================================
+   INFO BANNER
+========================================================= */
+.info-banner {
+  width: 90vw;
+  margin: 3vw auto 1.5vw;
+  padding: 3vw 3.5vw;
+  border-radius: 4.5vw;
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+  color: #fff;
+  background: linear-gradient(135deg, #00d1ff, #6a00ff);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+
+.info-dot {
+  width: 3.8vw;
+  height: 3.8vw;
+  border-radius: 50%;
+  background: #fff;
+  animation: dotPulse 2s infinite;
+}
+
+@keyframes dotPulse {
+  0%,100% { box-shadow: 0 0 0 3px rgba(255,255,255,.35); }
+  50%     { box-shadow: 0 0 0 9px rgba(255,255,255,.15); }
+}
+
+.info-title {
+  font-size: 3vw;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+
+.info-message {
+  font-size: 4.2vw;
+  font-weight: 700;
+}
+
+/* =========================================================
+   CAJA REGISTRO
+========================================================= */
+.box-login {
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,.97),
+    rgba(246,247,255,.95)
+  );
+  border-radius: 6vw 6vw 0 0;
+  width: 100%;
+  padding: 4vw 0;
+  padding-bottom: calc(env(safe-area-inset-bottom,0px) + 8vh);
+  box-shadow: 0 -22px 70px rgba(0,0,0,.35);
+}
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+.titulo-cuenta {
+  font-size: 6.6vw;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-align: center;
+  color: #000;
+  margin-bottom: 2vw;
+}
+
+/* =========================================================
+   NOTAS REGISTRO
+========================================================= */
+.add-notas {
+  width: 86%;
+  margin: 2vw auto 4vw;
+  padding: 3vw;
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+  border-radius: 4vw;
+  background: rgba(94,23,235,.06);
+  border: 1px solid rgba(94,23,235,.15);
+}
+
+.add-notas img {
+  width: 45%;
+  object-fit: contain;
+}
+
+.add-notas span {
+  width: 55%;
+  font-size: 3.6vw;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: #2b2b2b;
+}
+
+/* =========================================================
+   LABELS
+========================================================= */
+.box-login-span {
+  width: 75%;
+  font-size: 3.6vw;
+  color: rgba(0,0,0,.6);
+  margin: 1vw auto 0;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+.cont-sd {
+  width: 75%;
+  margin: 3.6vw auto;
+  padding: 3.4vw 5vw;
+  background: rgba(94,23,235,.07);
+  border-radius: 3.8vw;
+  border: 1px solid rgba(94,23,235,.16);
+  display: flex;
+  align-items: center;
+  transition: all .25s ease;
+}
+
+.cont-sd:focus-within {
+  background: #fff;
+  border-color: #5e17eb;
+  box-shadow: 0 0 0 5px rgba(94,23,235,.18);
+}
+
+.cont-sd input {
+  width: 100%;
+  font-size: 4.2vw;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+.cont-sd-password {
+  gap: 2vw;
+}
+
+.toggle-pwd {
+  background: rgba(94,23,235,.14);
+  border-radius: 3vw;
+  padding: 1.4vw 3.4vw;
+  font-size: 3.4vw;
+  font-weight: 700;
+  color: #5e17eb;
+  border: 0;
+}
+
+/* =========================================================
+   BOTÓN CREAR CUENTA
+========================================================= */
+.bsolicitar {
+  width: 64vw;
+  height: 6.2vh;
+  margin: 4.5vw auto 3vw;
+
+  background: linear-gradient(135deg, #7f45ff, #5e17eb);
+  border-radius: 100vw;
+  border: none;
+  color: #fff;
+
+  font-size: 4.2vw;
+  font-weight: 800;
+  letter-spacing: .09em;
+
+  box-shadow:
+    0 18px 45px rgba(94,23,235,.55),
+    inset 0 1px 0 rgba(255,255,255,.25);
+
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.bsolicitar:active {
+  transform: scale(.96);
+}
+
+/* =========================================================
+   LINK INICIAR SESIÓN
+========================================================= */
+.iniciar-sesion {
+  margin-top: 2vw;
+}
+
+.iniciar-sesion button {
+  font-size: 3.6vw;
+  border: 0;
+  background: transparent;
+  color: #5e17eb;
+  font-weight: 700;
 }
