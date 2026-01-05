@@ -1,0 +1,50 @@
+<div class="bienvenida-box">
+  <div class="opciones-top flex flex-column align-items-center justify-content-between">
+    <div (click)="home()"></div>
+
+    <div class="flex flex-column pb-2">
+      <span class="titulo">OPCIONES</span>
+      <span class="subtitulo">ELIGE UNA DE LAS SIGUIENTES OPCIONES</span>
+    </div>
+  </div>
+
+  <div class="content-box flex flex-column justify-content-start align-items-center">
+    <div class="sheet-top">
+      <div class="bar"></div>
+    </div>
+
+    <!-- ✅ SCROLL AREA -->
+    <div class="scroll-area">
+      <div class="wrap">
+        <div *ngFor="let opcion of opciones"
+             class="box mor flex align-items-center justify-content-center"
+             (click)="irOpcion(opcion.ruta)">
+
+          <div class="icon" [style.background-image]="'url(/assets/iconicsnew/cuenta-' + opcion.img + '.svg)'"></div>
+
+          <span>{{ opcion.titulo }}</span>
+
+          <!-- ✅ BADGE NEW -->
+          <div *ngIf="opcion.isNew" class="new-badge">
+            <span>NEW</span>
+          </div>
+        </div>
+
+        <span class="section-title">Otras opciones</span>
+
+        <div *ngFor="let otro of otros"
+             class="box cel flex align-items-center justify-content-center"
+             (click)="irEnlace(otro.enlace)">
+
+          <div class="icon" [style.background-image]="'url(/assets/iconicsnew/cuenta-' + otro.img + '.svg)'"></div>
+          <span>{{ otro.titulo }}</span>
+        </div>
+
+        <div class="bottom-space"></div>
+      </div>
+
+      <!-- ✅ Fade bonito abajo -->
+      <div class="bottom-fade"></div>
+    </div>
+  </div>
+</div>

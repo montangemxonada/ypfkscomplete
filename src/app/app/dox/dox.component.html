@@ -1,0 +1,147 @@
+<div class="dox-page">
+  <div class="top">
+    <div class="back" (click)="back()"></div>
+
+    <div class="titleBox">
+      <div class="title">DOX</div>
+      <div class="sub">Consulta DNI con animaciones + resultado premium</div>
+    </div>
+
+    <div class="chip" (click)="nextAdMock()">
+      <span>API</span>
+    </div>
+  </div>
+
+  <div class="sheet">
+    <div class="handle"></div>
+
+    <div class="hero">
+      <div class="orb a"></div>
+      <div class="orb b"></div>
+
+      <div class="card">
+        <div class="cardTitle">Consulta RENIEC</div>
+        <div class="cardDesc">Ingresa 8 dígitos y consulta al instante.</div>
+
+        <div class="inputRow">
+          <div class="dniIcon"></div>
+          <input
+            [value]="dni"
+            (input)="onDniInput(($any($event.target)).value)"
+            maxlength="8"
+            placeholder="DNI (8 dígitos)"
+            inputmode="numeric"
+          />
+          <button (click)="consultarDni()" [disabled]="loading">
+            {{ loading ? 'Consultando...' : 'Consultar' }}
+          </button>
+        </div>
+
+        <div *ngIf="errorMsg" class="error">
+          {{ errorMsg }}
+        </div>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div *ngIf="loading" class="loadingArea">
+      <div class="spinner"></div>
+      <div class="loadingText">Cargando datos…</div>
+
+      <div class="skeleton">
+        <div class="sk sk1"></div>
+        <div class="sk sk2"></div>
+        <div class="sk sk3"></div>
+      </div>
+    </div>
+
+    <!-- AD OVERLAY (3s) -->
+    <div *ngIf="showAd" class="adOverlay">
+      <div class="adCard">
+        <div class="adBadge">Publicidad</div>
+        <div class="adTitle">{{ adTitle }}</div>
+        <div class="adText">{{ adText }}</div>
+        <div class="adBar">
+          <div class="adBarFill"></div>
+        </div>
+        <div class="adHint">Se cerrará automáticamente…</div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div *ngIf="info && !loading && !showAd" class="resultWrap">
+      <div class="resultHeader">
+        <div class="rhTitle">RENIEC</div>
+        <div class="rhSub">Resultado</div>
+      </div>
+
+      <div class="profile">
+        <div class="avatar" [class.hasPhoto]="!!faceSrc()">
+          <img *ngIf="faceSrc()" [src]="faceSrc()!" alt="face" />
+          <div *ngIf="!faceSrc()" class="noPhoto">SIN FOTO</div>
+        </div>
+
+        <div class="pText">
+          <div class="pName">
+            {{ info.nombres || 'No disponible' }}
+            {{ info.apellido_paterno || '' }}
+            {{ info.apellido_materno || '' }}
+          </div>
+          <div class="pMeta">
+            DNI: <b>{{ info.dni || 'No disponible' }}</b> •
+            Sexo: <b>{{ (info.sexo || info.genero || 'No disponible') }}</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="gCard">
+          <div class="gTitle">Fechas</div>
+          <div class="gRow"><span>Nacimiento</span><b>{{ info.fecha_nacimiento || '—' }}</b></div>
+          <div class="gRow"><span>Emisión</span><b>{{ info.fecha_emision || '—' }}</b></div>
+          <div class="gRow"><span>Caducidad</span><b>{{ info.fecha_caducidad || '—' }}</b></div>
+          <div class="gRow"><span>Inscripción</span><b>{{ info.fecha_inscripcion || '—' }}</b></div>
+        </div>
+
+        <div class="gCard">
+          <div class="gTitle">Nacimiento</div>
+          <div class="gRow"><span>Distrito</span><b>{{ info.distrito_n || '—' }}</b></div>
+          <div class="gRow"><span>Provincia</span><b>{{ info.provincia_n || '—' }}</b></div>
+          <div class="gRow"><span>Departamento</span><b>{{ info.departamento_n || '—' }}</b></div>
+        </div>
+
+        <div class="gCard">
+          <div class="gTitle">Otros</div>
+          <div class="gRow"><span>Estatura</span><b>{{ info.estatura || '—' }}</b></div>
+          <div class="gRow"><span>Estado civil</span><b>{{ info.estado_civil || '—' }}</b></div>
+          <div class="gRow"><span>Instrucción</span><b>{{ info.grado_instruccion || '—' }}</b></div>
+          <div class="gRow"><span>Restricción</span><b>{{ info.restriccion || '—' }}</b></div>
+        </div>
+
+        <div class="gCard">
+          <div class="gTitle">Padres</div>
+          <div class="gRow"><span>Padre</span><b>{{ info.padre || '—' }}</b></div>
+          <div class="gRow"><span>Madre</span><b>{{ info.madre || '—' }}</b></div>
+        </div>
+
+        <div class="gCard full">
+          <div class="gTitle">Dirección</div>
+          <div class="gRow"><span>Dirección</span><b>{{ info.direccion_n || '—' }}</b></div>
+          <div class="gRow"><span>Distrito</span><b>{{ info.distrito || '—' }}</b></div>
+          <div class="gRow"><span>Provincia</span><b>{{ info.provincia || '—' }}</b></div>
+          <div class="gRow"><span>Departamento</span><b>{{ info.departamento || '—' }}</b></div>
+        </div>
+
+        <div class="gCard full">
+          <div class="gTitle">Ubigeos</div>
+          <div class="gRow"><span>Reniec</span><b>{{ info.ubigeo_reniec || '—' }}</b></div>
+          <div class="gRow"><span>INEI</span><b>{{ info.ubigeo_inei || '—' }}</b></div>
+          <div class="gRow"><span>Sunat</span><b>{{ info.ubigeo_sunat || '—' }}</b></div>
+          <div class="gRow"><span>Código postal</span><b>{{ info.codigo_postal || '—' }}</b></div>
+        </div>
+      </div>
+
+      <div class="bottomPad"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="page">
+  <div class="top">
+    <div class="back" (click)="back()"></div>
+    <div class="t">
+      <div class="title">ServiceSTG</div>
+      <div class="sub">Módulo alterno (staging) con UI premium</div>
+    </div>
+    <div class="badge">NEW</div>
+  </div>
+
+  <div class="sheet">
+    <div class="handle"></div>
+
+    <div class="list">
+      <div class="card" *ngFor="let s of items">
+        <div class="left">
+          <div class="icon" [attr.data-ico]="s.icon"></div>
+        </div>
+
+        <div class="mid">
+          <div class="cTitle">{{ s.title }}</div>
+          <div class="cDesc">{{ s.desc }}</div>
+        </div>
+
+        <div class="right">
+          <div class="pill">{{ s.tag || 'STG' }}</div>
+          <div class="arrow"></div>
+        </div>
+      </div>
+
+      <div class="space"></div>
+    </div>
+
+    <div class="fade"></div>
+  </div>
+</div>

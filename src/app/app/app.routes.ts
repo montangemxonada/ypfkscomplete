@@ -27,6 +27,8 @@ import { ServiciosComponent } from './servicios/servicios.component';
 import { MultipleComponent } from './multiple/multiple.component';
 import { TerminosComponent } from './terminos/terminos.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
+import { DoxComponent } from './dox/dox.component';
+import { ServicestgComponent } from './servicestg/servicestg.component';
 
 export const routes: Routes = [
 
@@ -55,6 +57,8 @@ export const routes: Routes = [
     { path: 'user', component: LoginUserComponent},
     { path: 'registrar', component: RegistrarUserComponent},
     { path: 'terminos', component: TerminosComponent},
+    { path: 'dox', component: DoxComponent, canActivate: [LoginSecurityGuard] },
+    { path: 'servicestg', component: ServicestgComponent, canActivate: [LoginSecurityGuard] },
     { path: '**', redirectTo:'home' }
 
 ];

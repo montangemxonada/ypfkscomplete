@@ -1,0 +1,232 @@
+/* ================================
+   CONTENEDOR PRINCIPAL
+================================ */
+.bienvenida-box{
+  background-image: url(/assets/iconicsnew/fondo-total.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  animation: fadeInApp .7s ease-out forwards;
+  overflow: hidden;
+}
+
+/* ================================
+   HEADER SUPERIOR
+================================ */
+.opciones-top{
+  height: 24vh;
+  background-image: url(/assets/iconicsnew/opciones-fondo.png);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: slideDown .6s ease-out forwards;
+}
+
+.opciones-top div:nth-of-type(1){
+  height: 7vh;
+  width: 90%;
+  background-image: url(/assets/iconicsnew/atras-cuenta.svg);
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.opciones-top div:nth-of-type(1):active{ transform: scale(.9); opacity: .7; }
+
+.titulo{
+  font-size: 7vw;
+  font-weight: 700;
+  width: 80%;
+  text-align: left;
+  color: #fff;
+  text-shadow: 0 .5vw 1vw rgba(0,0,0,.25);
+}
+.subtitulo{
+  font-size: 4vw;
+  width: 80%;
+  text-align: left;
+  color: #fff;
+  opacity: .95;
+  text-shadow: 0 .5vw 1vw rgba(0,0,0,.2);
+}
+
+/* ================================
+   CONTENIDO BLANCO (SHEET)
+================================ */
+.content-box{
+  border-radius: 6vw 6vw 0 0;
+  background-color: #fff;
+  height: calc(100vh - 24vh);
+  box-shadow: 0 -1vw 3vw rgba(0,0,0,.15);
+  animation: slideUp .7s ease-out forwards;
+  overflow: hidden;
+  position: relative;
+}
+
+.sheet-top{
+  padding-top: 3vw;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Barra superior */
+.bar{
+  width: 50vw;
+  height: 1.8vw;
+  background: linear-gradient(90deg,#bbb,#666,#bbb);
+  border-radius: 3vw;
+  opacity: .7;
+}
+
+/* ================================
+   SCROLL AREA
+================================ */
+.scroll-area{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 2vw 0 0 0;
+}
+
+.wrap{
+  width: 85%;
+  margin: 0 auto;
+  padding-bottom: 8vh;
+}
+
+.bottom-space{ height: 4vh; }
+
+.bottom-fade{
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 7vh;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+  pointer-events: none;
+}
+
+/* ================================
+   BOTONES / OPCIONES
+================================ */
+.box{
+  width: 100%;
+  height: 6.5vh;
+  margin-top: 1.8vh;
+  border-radius: 10vw;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 .6vw 1.5vw rgba(0,0,0,.18);
+  cursor: pointer;
+  transform: translateY(18px);
+  opacity: 0;
+  animation: optionFadeUp .45s ease forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+/* brillo animado sutil */
+.box::after{
+  content:"";
+  position:absolute;
+  top:-30%;
+  left:-40%;
+  width: 40%;
+  height: 160%;
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0));
+  transform: rotate(18deg);
+  animation: shine 2.8s ease-in-out infinite;
+  opacity: .55;
+}
+
+.box:active{
+  transform: scale(.97);
+  box-shadow: 0 .2vw .6vw rgba(0,0,0,.25);
+}
+
+/* Colores */
+.mor{ background: linear-gradient(135deg,#5e17eb,#7a3cff); }
+.cel{ background: linear-gradient(135deg,#00b8ff,#00d0ff); }
+
+/* Iconos */
+.icon{
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  background-color: #fff;
+  background-position: center;
+  background-size: 65%;
+  background-repeat: no-repeat;
+  margin-left: .8vh;
+  box-shadow: 0 .4vw .8vw rgba(0,0,0,.2);
+}
+.mor .icon{ border: .5vw solid #5e17eb; }
+.cel .icon{ border: .5vw solid #00b8ff; }
+
+/* Texto botón */
+.box span{
+  width: calc(100% - 6vh);
+  font-size: 2vh;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .08vh;
+}
+
+/* "NEW" badge en esquina */
+.new-badge{
+  position: absolute;
+  top: 1.1vh;
+  right: 3.2vw;
+  padding: .35vh 1.7vw;
+  border-radius: 5vw;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 .6vw 1.2vw rgba(0,0,0,.18);
+  transform: translateY(-2px);
+  animation: pop 1.2s ease-in-out infinite;
+}
+.new-badge span{
+  color: #5e17eb;
+  font-size: 1.4vh;
+  font-weight: 900;
+  letter-spacing: .12vh;
+}
+
+/* sección */
+.section-title{
+  width: 100%;
+  font-size: 4.5vw;
+  padding: 4vw 0 2vw 0;
+  display: block;
+  color: #111;
+  font-weight: 700;
+}
+
+/* ================================
+   ANIMACIONES
+================================ */
+@keyframes fadeInApp{ from{opacity:0} to{opacity:1} }
+@keyframes slideDown{ from{transform:translateY(-30px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes slideUp{ from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes optionFadeUp{ to{transform:translateY(0);opacity:1} }
+@keyframes shine{
+  0%{ left:-45%; opacity:.0; }
+  30%{ opacity:.55; }
+  55%{ left:110%; opacity:.0; }
+  100%{ left:110%; opacity:0; }
+}
+@keyframes pop{
+  0%,100%{ transform: translateY(-2px) scale(1); }
+  50%{ transform: translateY(-2px) scale(1.06); }
+}
