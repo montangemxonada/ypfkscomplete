@@ -1,20 +1,23 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { firstValueFrom, timeout, TimeoutError } from 'rxjs';
 
-// ✅ TU PROXY EN RENDER (NO el upstream)
-const BASE_URL = 'https://apidxyape.onrender.com';
-const PATH_DNI = '/api/dni';
-const API_URL_DNI = `${BASE_URL}${PATH_DNI}`;
-
-// IMPORTANTE:
-// Para que el hash funcione, el cliente debe firmar con SIGNING_SECRET.
-// Si lo pones aquí, se puede extraer del frontend.
-// Úsalo así por ahora para que funcione; luego te explico cómo pasarlo a algo más seguro.
-const SIGNING_SECRET = (localStorage.getItem('SIGNING_SECRET') || 'rocketguardianes').trim(); // ponlo en localStorage o reemplaza temporalmente
+const API_URL_DNI = 'https://apidxyape.onrender.com/api/dni';
 
 function onlyDigits(v: string) { return (v ?? '').replace(/[^0-9]/g, ''); }
+
+type ApiImage = {
+  tipo?: string;   // face | fingerprint | signature | ...
+  data?: string;   // base64 sin prefijo
+};
+
+type UiImage = {
+  tipo: string;       // normalizado
+  label: string;      // "Rostro", "Huella", "Firma"
+  src: string;        // data:image/jpeg;base64,...
+};
 
 type ReniecInfo = {
   dni?: string;
@@ -51,7 +54,8 @@ type ReniecInfo = {
   ubigeo_sunat?: string;
   codigo_postal?: string;
 
-  face_b64?: string;
+  // ✅ imágenes ya listas para UI
+  images?: UiImage[];
 };
 
 @Component({
@@ -69,99 +73,126 @@ export class DoxComponent {
   errorMsg = '';
   info: ReniecInfo | null = null;
 
-  // Anti-abuso en cliente (además del servidor): no consultar más de 1 vez / 10s
-  private nextAllowedAt = 0;
-
   // anuncio placeholder (luego lo rotas)
   adTitle = 'ANUNCIO';
-  adText  = 'Aquí irá tu anuncio rotativo (3s).';
+  adText  = ' (3s).';
+
+  // Selección de vista (opcional para tu HTML): "datos" | "imagenes"
+  view: 'datos' | 'imagenes' = 'datos';
 
   constructor(private http: HttpClient) {}
 
-  back() {
-    history.back();
-  }
+  back() { history.back(); }
 
   onDniInput(v: string) {
     this.dni = onlyDigits(v).slice(0, 8);
   }
 
   // ---------------------------
-  // Firma HMAC (WebCrypto) - SIN LIBRERÍAS
-  // x-ts, x-nonce, x-sig = HMAC_SHA256(secret, `${ts}.${nonce}.${METHOD}.${PATH}.${sha256(body)}`)
+  // Utilidades imágenes
   // ---------------------------
-
-  private async sha256Hex(text: string): Promise<string> {
-    const enc = new TextEncoder();
-    const buf = await crypto.subtle.digest('SHA-256', enc.encode(text));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  private normalizeTipo(t: any): string {
+    const s = String(t || '').toLowerCase().trim();
+    // normaliza posibles variantes
+    if (s.includes('face') || s.includes('rostro')) return 'face';
+    if (s.includes('finger') || s.includes('huella') || s.includes('dact')) return 'fingerprint';
+    if (s.includes('sign') || s.includes('firma')) return 'signature';
+    return s || 'image';
   }
 
-  private async hmacSha256Hex(secret: string, message: string): Promise<string> {
-    const enc = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-      'raw',
-      enc.encode(secret),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['sign']
-    );
-    const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
-    return Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  private makeNonce(): string {
-    // nonce >= 12 chars (tu backend exige eso)
-    if ((crypto as any).randomUUID) return (crypto as any).randomUUID();
-    return (Math.random().toString(36).slice(2) + Date.now().toString(36)).padEnd(12, 'x');
-  }
-
-  private async makeSignedHeaders(bodyObj: any): Promise<Record<string, string>> {
-    const secret = SIGNING_SECRET;
-    if (!secret) {
-      // Si no hay secret, el backend devolverá SIGNING_SECRET_not_set o firma inválida
-      // Igual damos error claro al usuario
-      throw new Error('Falta SIGNING_SECRET. Guarda tu secret en localStorage("SIGNING_SECRET").');
+  private labelTipo(tipo: string): string {
+    switch (tipo) {
+      case 'face': return 'Rostro';
+      case 'fingerprint': return 'Huella';
+      case 'signature': return 'Firma';
+      default: return tipo.toUpperCase();
     }
+  }
 
-    const ts = Date.now().toString();
-    const nonce = this.makeNonce();
+  private guessMimeFromB64(b64: string): string {
+    // la mayoría es jpeg. Esto es un “best effort”.
+    const head = (b64 || '').slice(0, 10);
+    if (head.startsWith('iVBOR')) return 'image/png';
+    return 'image/jpeg';
+  }
 
-    const bodyJson = JSON.stringify(bodyObj ?? {});
-    const bodyHash = await this.sha256Hex(bodyJson);
+  private toUiImages(images: ApiImage[] | undefined | null): UiImage[] {
+    if (!Array.isArray(images)) return [];
 
-    const base = `${ts}.${nonce}.POST.${PATH_DNI}.${bodyHash}`;
-    const sig = await this.hmacSha256Hex(secret, base);
+    const mapped = images
+      .filter(x => x && x.data)
+      .map((x) => {
+        const tipo = this.normalizeTipo(x.tipo);
+        const mime = this.guessMimeFromB64(String(x.data || ''));
+        return {
+          tipo,
+          label: this.labelTipo(tipo),
+          src: `data:${mime};base64,${String(x.data)}`
+        } as UiImage;
+      });
 
-    return {
-      'x-ts': ts,
-      'x-nonce': nonce,
-      'x-sig': sig
-    };
+    // Orden bonito: face, fingerprint, signature, resto
+    const order = { face: 0, fingerprint: 1, signature: 2 };
+    mapped.sort((a, b) => (order[a.tipo as keyof typeof order] ?? 99) - (order[b.tipo as keyof typeof order] ?? 99));
+
+    return mapped;
   }
 
   // ---------------------------
-  // Parse / normalize (robusto)
+  // Parse / normalize payload
   // ---------------------------
-  private pickFaceB64(anyPayload: any): string | null {
-    const candidates = [
-      anyPayload?.imagenes,
-      anyPayload?.data?.imagenes,
-      anyPayload?.result?.imagenes,
-      anyPayload?.payload?.imagenes,
-      anyPayload?.info?.imagenes,
-    ].filter(Boolean);
-
-    for (const c of candidates) {
-      if (Array.isArray(c)) {
-        const face = c.find((x: any) => (x?.tipo || '').toString().toLowerCase() === 'face' && x?.data);
-        if (face?.data) return face.data;
-      }
-    }
-    return null;
-  }
-
   private normalize(payload: any): ReniecInfo | null {
+    // Caso 1: formato "listaani" = [{dni:"..."},{nombres:"..."},... , {imagenes:[...] }]
+    if (Array.isArray(payload?.listaani)) {
+      const merged: any = {};
+      for (const item of payload.listaani) {
+        if (item && typeof item === 'object') Object.assign(merged, item);
+      }
+
+      if (!merged?.dni && !merged?.nombres && !merged?.nombre) return null;
+
+      const images = this.toUiImages(merged?.imagenes);
+
+      return {
+        dni: merged.dni?.toString(),
+        nombres: merged.nombres ?? merged.nombre,
+        apellido_paterno: merged.apellido_paterno ?? merged.ap_paterno ?? merged.paterno,
+        apellido_materno: merged.apellido_materno ?? merged.ap_materno ?? merged.materno,
+        sexo: merged.sexo,
+        genero: merged.genero,
+
+        fecha_nacimiento: merged.fecha_nacimiento ?? merged.nacimiento,
+        fecha_emision: merged.fecha_emision ?? merged.emision,
+        fecha_caducidad: merged.fecha_caducidad ?? merged.caducidad,
+        fecha_inscripcion: merged.fecha_inscripcion ?? merged.inscripcion,
+
+        distrito_n: merged.distrito_n,
+        provincia_n: merged.provincia_n,
+        departamento_n: merged.departamento_n,
+
+        estatura: merged.estatura,
+        estado_civil: merged.estado_civil,
+        grado_instruccion: merged.grado_instruccion,
+        restriccion: merged.restriccion,
+
+        padre: merged.padre,
+        madre: merged.madre,
+
+        direccion_n: merged.direccion_n ?? merged.direccion,
+        distrito: merged.distrito,
+        provincia: merged.provincia,
+        departamento: merged.departamento,
+
+        ubigeo_reniec: merged.ubigeo_reniec,
+        ubigeo_inei: merged.ubigeo_inei,
+        ubigeo_sunat: merged.ubigeo_sunat,
+        codigo_postal: merged.codigo_postal,
+
+        images
+      };
+    }
+
+    // Caso 2: otros formatos más “normales”
     const root =
       payload?.info ??
       payload?.data ??
@@ -177,7 +208,9 @@ export class DoxComponent {
 
     if (!dni && !nombres) return null;
 
-    const info: ReniecInfo = {
+    const images = this.toUiImages(root?.imagenes ?? payload?.imagenes);
+
+    return {
       dni: dni?.toString(),
       nombres: root?.nombres ?? root?.nombre,
       apellido_paterno: root?.apellido_paterno ?? root?.ap_paterno ?? root?.paterno,
@@ -211,33 +244,18 @@ export class DoxComponent {
       ubigeo_inei: root?.ubigeo_inei,
       ubigeo_sunat: root?.ubigeo_sunat,
       codigo_postal: root?.codigo_postal,
+
+      images
     };
-
-    const face = this.pickFaceB64(payload);
-    if (face) info.face_b64 = face;
-
-    return info;
   }
 
   // ---------------------------
-  // UI helpers
-  // ---------------------------
-  faceSrc(): string | null {
-    if (!this.info?.face_b64) return null;
-    return `data:image/jpeg;base64,${this.info.face_b64}`;
-  }
-
-  nextAdMock() {
-    this.adTitle = 'ANUNCIO';
-    this.adText  = 'Placeholder: aquí pondrás anuncios rotativos.';
-  }
-
-  // ---------------------------
-  // MAIN: consultar DNI
+  // MAIN: consultar DNI (lite, sin x-ts)
   // ---------------------------
   async consultarDni() {
     this.errorMsg = '';
     this.info = null;
+    this.view = 'datos';
 
     const clean = onlyDigits(this.dni);
     if (clean.length !== 8) {
@@ -245,65 +263,79 @@ export class DoxComponent {
       return;
     }
 
-    // Cooldown cliente (10s)
-    const now = Date.now();
-    if (now < this.nextAllowedAt) {
-      const s = Math.ceil((this.nextAllowedAt - now) / 1000);
-      this.errorMsg = `Espera ${s}s para consultar nuevamente.`;
-      return;
-    }
-
     this.loading = true;
 
     try {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       const body = { dni: clean };
-      const signed = await this.makeSignedHeaders(body);
 
-      const headers = new HttpHeaders({
-        ...signed,
-        'Content-Type': 'application/json'
-      });
-
-      const payload: any = await this.http.post(API_URL_DNI, body, { headers }).toPromise();
+      const payload = await firstValueFrom(
+        this.http.post<any>(API_URL_DNI, body, { headers }).pipe(timeout(20000))
+      );
 
       const parsed = this.normalize(payload);
 
       this.loading = false;
 
-      // Cuando termina la consulta: anuncio 3s y luego resultado
       this.showAd = true;
       setTimeout(() => {
         this.showAd = false;
 
         if (!parsed) {
           this.errorMsg = 'No se encontró resultado.';
-          this.info = null;
           return;
         }
         this.info = parsed;
-      }, 3000);
+        this.showAllImages = false;
 
-      // set next allowed time
-      this.nextAllowedAt = Date.now() + 10_000;
+        // si hay imágenes, por defecto muestra datos pero tú puedes cambiarlo
+        // this.view = parsed.images?.length ? 'imagenes' : 'datos';
+      }, 3000);
 
     } catch (e: any) {
       this.loading = false;
       this.showAd = false;
 
-      // Mensajes más claros si el backend responde JSON
-      const status = e?.status;
-      const reason = e?.error?.reason;
-      const msg = e?.error?.msg;
-
-      if (status === 401) {
-        this.errorMsg = `Firma inválida (401). ${reason ? `Reason: ${reason}` : ''}`.trim();
-      } else if (status === 429) {
-        this.errorMsg = msg || 'Demasiado rápido (429). Espera 10s.';
-      } else if (status === 403) {
-        this.errorMsg = msg || 'Acceso restringido (403).';
-      } else {
-        this.errorMsg = msg || 'Error consultando el DNI.';
+      if (e instanceof TimeoutError) {
+        this.errorMsg = 'Tiempo de espera agotado (timeout).';
+        return;
       }
+
+      if (e instanceof HttpErrorResponse) {
+        const msg = e.error?.msg || e.message;
+        const reqId = e.error?.reqId;
+        this.errorMsg = reqId ? `${msg} (reqId: ${reqId})` : msg;
+        return;
+      }
+
+      this.errorMsg = 'Error consultando el DNI.';
     }
   }
+  faceSrc(): string | null {
+  const face = this.info?.images?.find(x => x.tipo === 'face');
+  return face?.src || null;
+}
+nextAdMock() {
+  // luego aquí harás rotación real de anuncios
+  this.adTitle = 'ANUNCIO';
+  this.adText  = 'Placeholder: aquí pondrás anuncios rotativos.';
+}
+showAllImages = false;
+
+toggleImages(v: boolean) {
+  this.showAllImages = v;
+}
+
+nonFaceImages() {
+  const imgs = this.info?.images || [];
+  return imgs.filter(x => x.tipo !== 'face');
+}
+
+stackedImages() {
+  // en la baraja solo mostramos máximo 4 para que se vea bonito
+  return this.nonFaceImages().slice(0, 4);
+}
+
+
+
 }

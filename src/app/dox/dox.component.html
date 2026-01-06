@@ -4,7 +4,7 @@
 
     <div class="titleBox">
       <div class="title">DOX</div>
-      <div class="sub">Consulta DNI con animaciones + resultado premium</div>
+      <div class="sub">Consulta DNI</div>
     </div>
 
     <div class="chip" (click)="nextAdMock()">
@@ -21,7 +21,7 @@
 
       <div class="card">
         <div class="cardTitle">Consulta RENIEC</div>
-        <div class="cardDesc">Ingresa 8 dígitos y consulta al instante.</div>
+        <div class="cardDesc">Ingresa 8 dígitos y consulta.</div>
 
         <div class="inputRow">
           <div class="dniIcon"></div>
@@ -43,10 +43,9 @@
       </div>
     </div>
 
-    <!-- LOADING -->
     <div *ngIf="loading" class="loadingArea">
       <div class="spinner"></div>
-      <div class="loadingText">Cargando datos…</div>
+      <div class="loadingText">Cargando…</div>
 
       <div class="skeleton">
         <div class="sk sk1"></div>
@@ -55,7 +54,6 @@
       </div>
     </div>
 
-    <!-- AD OVERLAY (3s) -->
     <div *ngIf="showAd" class="adOverlay">
       <div class="adCard">
         <div class="adBadge">Publicidad</div>
@@ -68,7 +66,6 @@
       </div>
     </div>
 
-    <!-- RESULT -->
     <div *ngIf="info && !loading && !showAd" class="resultWrap">
       <div class="resultHeader">
         <div class="rhTitle">RENIEC</div>
@@ -93,6 +90,65 @@
           </div>
         </div>
       </div>
+
+      <!-- ✅ IMÁGENES: rostro / huellas / firma -->
+      <!-- IMÁGENES -->
+<div *ngIf="info?.images?.length" class="imgSection">
+  <div class="imgHeader">
+    <div class="imgTitle">Imágenes</div>
+    <div class="imgSub">{{ info.images?.length || 0 }} archivo(s)</div>
+  </div>
+
+  <!-- ROSTRO SIEMPRE PRIMERO -->
+  <div *ngIf="faceSrc()" class="faceBig">
+    <div class="faceBadge">Rostro</div>
+    <img [src]="faceSrc()!" alt="Rostro" />
+  </div>
+
+  <!-- BARAJA (colapsado) -->
+  <div *ngIf="!showAllImages" class="deckWrap">
+    <div class="deckTop">
+      <div class="deckTitle">Otros</div>
+      <button class="deckBtn" (click)="toggleImages(true)">
+        Ver todas
+      </button>
+    </div>
+
+    <div class="deck" (click)="toggleImages(true)" role="button" tabindex="0">
+      <ng-container *ngFor="let img of stackedImages(); let i = index">
+        <div class="cardStack" [style.--i]="i" [style.zIndex]="50 - i">
+          <div class="cardTag">{{ img.label }}</div>
+          <img [src]="img.src" [alt]="img.label" />
+        </div>
+      </ng-container>
+
+      <!-- Si solo había rostro -->
+      <div *ngIf="stackedImages().length === 0" class="deckEmpty">
+        No hay más imágenes
+      </div>
+    </div>
+
+    <div class="deckHint">Toca la baraja para expandir</div>
+  </div>
+
+  <!-- EXPANDIDO -->
+  <div *ngIf="showAllImages" class="expandedWrap">
+    <div class="expandedTop">
+      <div class="expandedTitle">Todas las imágenes</div>
+      <button class="deckBtn" (click)="toggleImages(false)">
+        Ocultar
+      </button>
+    </div>
+
+    <div class="imgGrid">
+      <div class="imgCard" *ngFor="let img of nonFaceImages()">
+        <div class="imgTag">{{ img.label }}</div>
+        <img class="imgItem" [src]="img.src" [alt]="img.label" />
+      </div>
+    </div>
+  </div>
+</div>
+
 
       <div class="grid">
         <div class="gCard">

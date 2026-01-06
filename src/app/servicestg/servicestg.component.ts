@@ -19,9 +19,9 @@ export class ServicestgComponent {
   back(){ history.back(); }
 
   items: ServiceItem[] = [
-    { title: 'Pagos / Cobros', desc: 'Crea flujos, links, y automatiza cobros.', tag: 'STG', icon: 'bolt' },
-    { title: 'Notificaciones', desc: 'Programación inteligente y plantillas.', tag: 'STG', icon: 'bell' },
-    { title: 'Soporte', desc: 'Atajos a canales y ayuda rápida.', tag: 'STG', icon: 'support' },
-    { title: 'Enlaces útiles', desc: 'Accesos rápidos para tu operación.', tag: 'STG', icon: 'link' },
+    { title: 'Pagos / Cobros', desc: '...', tag: 'STG', icon: 'bolt' },
+    { title: 'Notificaciones', desc: '....', tag: 'STG', icon: 'bell' },
+    { title: 'Soporte', desc: '...', tag: 'STG', icon: 'support' },
+    { title: 'Enlaces útiles', desc: '...', tag: 'STG', icon: 'link' },
   ];
 }

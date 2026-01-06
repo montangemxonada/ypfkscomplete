@@ -1,8 +1,441 @@
-<div class="father">
-    <h2>Terminos y Condiciones</h2>
-    <h3>Está prohibido:</h3>
-    <p>El uso del aplicativo para transmisiones en vivo.</p>
-    <p>Estafas vendiendo y mostrando el aplicativo.</p>
-    <p style="margin: 2vh 0;">En caso de no cumplir con lo establecido, será consecuencia de eliminación del acceso sin reclamo alguno.</p>
-    <p style="margin: 2vh 0;">Al usar o haber comprado el aplicativo, aceptaste haber leído los términos y condiciones puestos en la misma app, mostrándose en Perfil > Términos y condiciones, en caso no haya sido así, no nos hacemos cargo de no leer términos importantes para cualquier actividad y/o contrato.</p>
+<!-- ✅ Términos y Condiciones (Mobile-First, claro, legible, con degradados suaves y animaciones sutiles) -->
+<div class="tc2">
+  <!-- fondo suave -->
+  <div class="tc2-bg" aria-hidden="true">
+    <span class="tc2-blob a"></span>
+    <span class="tc2-blob b"></span>
+    <span class="tc2-blob c"></span>
+    <span class="tc2-noise"></span>
+  </div>
+
+  <!-- top bar -->
+  <header class="tc2-top">
+    <div class="tc2-pill">
+      <span class="tc2-dot"></span>
+      <span>Términos & Condiciones</span>
+    </div>
+
+    <p class="tc2-lead">
+      Este documento explica lo permitido y lo prohibido. Léelo completo para evitar bloqueos.
+    </p>
+  </header>
+
+  <!-- card principal -->
+  <main class="tc2-card" role="article">
+    <section class="tc2-section">
+      <h2 class="tc2-h2">
+        <span class="tc2-ico" aria-hidden="true">⛔</span>
+        Está prohibido
+      </h2>
+
+      <div class="tc2-list">
+        <article class="tc2-item">
+          <div class="tc2-badge" aria-hidden="true">1</div>
+          <div class="tc2-text">
+            <h3>Transmisiones en vivo</h3>
+            <p>El uso del aplicativo para transmisiones en vivo.</p>
+          </div>
+        </article>
+
+        <article class="tc2-item">
+          <div class="tc2-badge" aria-hidden="true">2</div>
+          <div class="tc2-text">
+            <h3>Estafas / venta fraudulenta</h3>
+            <p>Estafas vendiendo y mostrando el aplicativo.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="tc2-section">
+      <div class="tc2-callout danger">
+        <div class="tc2-callout-ico" aria-hidden="true">⚠️</div>
+        <div>
+          <h3>Consecuencia</h3>
+          <p>
+            En caso de no cumplir con lo establecido, será consecuencia de eliminación del acceso
+            sin reclamo alguno.
+          </p>
+        </div>
+      </div>
+
+      <div class="tc2-callout info">
+        <div class="tc2-callout-ico" aria-hidden="true">📌</div>
+        <div>
+          <h3>Aceptación</h3>
+          <p>
+            Al usar o haber comprado el aplicativo, aceptaste haber leído los términos y condiciones
+            puestos en la misma app, mostrándose en <b>Perfil &gt; Términos y condiciones</b>. En caso no
+            haya sido así, no nos hacemos cargo de no leer términos importantes para cualquier actividad
+            y/o contrato.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="tc2-footer">
+      <span class="tc2-mini">🔒</span>
+      <span class="tc2-mini">Recomendación: guarda una captura de esta pantalla.</span>
+    </footer>
+  </main>
 </div>
+
+<style>
+/* =========================
+   TC2 - Mobile First (Claro)
+   Legible + Animaciones sutiles
+   ========================= */
+
+:root{
+  /* base clara */
+  --bg: #f7f8fc;
+  --card: rgba(255,255,255,.82);
+  --cardSolid: #ffffff;
+  --stroke: rgba(15, 23, 42, .10);
+
+  --text: #0f172a;   /* slate-900 */
+  --muted:#475569;   /* slate-600 */
+
+  /* acentos suaves */
+  --violet:#7c3aed;
+  --sky:#0ea5e9;
+  --mint:#22c55e;
+  --amber:#f59e0b;
+
+  --shadow: 0 16px 38px rgba(2,6,23,.10);
+  --shadow2: 0 10px 20px rgba(2,6,23,.08);
+
+  --r1: 22px;
+  --r2: 16px;
+
+  /* Tipografía móvil (grande y legible) */
+  --title: clamp(18px, 5.5vw, 24px);
+  --h2:    clamp(16px, 4.9vw, 20px);
+  --h3:    clamp(15px, 4.4vw, 18px);
+  --p:     clamp(14px, 4.2vw, 16px);
+
+  --pad:   clamp(14px, 4vw, 18px);
+  --gap:   clamp(10px, 3.4vw, 14px);
+}
+
+*{ box-sizing: border-box; }
+html, body{ height:100%; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* contenedor */
+.tc2{
+  min-height:100vh;
+  width:100%;
+  position:relative;
+  padding: var(--pad);
+  display:flex;
+  flex-direction:column;
+  gap: var(--gap);
+}
+
+/* fondo suave con degradados claros */
+.tc2-bg{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.tc2-blob{
+  position:absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(34px);
+  opacity:.55;
+  transform: translateZ(0);
+  animation: tc2Float 10s ease-in-out infinite;
+}
+.tc2-blob.a{
+  left: -180px; top: -140px;
+  background: radial-gradient(circle at 35% 35%, rgba(124,58,237,.34), transparent 62%);
+  animation-duration: 12s;
+}
+.tc2-blob.b{
+  right: -200px; top: 40px;
+  background: radial-gradient(circle at 40% 40%, rgba(14,165,233,.30), transparent 62%);
+  animation-duration: 14s;
+}
+.tc2-blob.c{
+  left: 20%; bottom: -220px;
+  background: radial-gradient(circle at 45% 45%, rgba(34,197,94,.22), transparent 64%);
+  animation-duration: 16s;
+}
+
+/* textura leve para que no se vea plano */
+.tc2-noise{
+  position:absolute;
+  inset:0;
+  opacity:.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* top */
+.tc2-top{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+}
+
+.tc2-pill{
+  width: fit-content;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(124,58,237,.10), rgba(14,165,233,.10));
+  border: 1px solid rgba(15, 23, 42, .08);
+  box-shadow: var(--shadow2);
+  font-weight: 800;
+  font-size: var(--title);
+  letter-spacing: .2px;
+}
+
+.tc2-dot{
+  width: 10px; height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0) 60%),
+              linear-gradient(135deg, var(--violet), var(--sky));
+  box-shadow: 0 0 0 8px rgba(124,58,237,.12);
+  animation: tc2Pulse 1.8s ease-in-out infinite;
+}
+
+.tc2-lead{
+  margin:0;
+  color: var(--muted);
+  font-size: var(--p);
+  line-height: 1.45;
+  max-width: 52ch;
+}
+
+/* card principal */
+.tc2-card{
+  position:relative;
+  z-index:1;
+  width:100%;
+  border-radius: var(--r1);
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+  border: 1px solid rgba(15, 23, 42, .10);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  overflow:hidden;
+  animation: tc2In .45s ease-out both;
+}
+
+/* borde gradiente sutil (no oscuro) */
+.tc2-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  padding: 1px;
+  border-radius: var(--r1);
+  background: linear-gradient(135deg,
+    rgba(124,58,237,.20),
+    rgba(14,165,233,.18),
+    rgba(34,197,94,.14),
+    rgba(245,158,11,.14)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity:.75;
+}
+
+.tc2-section{
+  padding: clamp(14px, 4vw, 18px);
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+}
+
+.tc2-h2{
+  margin:0;
+  font-size: var(--h2);
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+
+.tc2-ico{
+  width: 36px; height: 36px;
+  display:grid;
+  place-items:center;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, .08);
+  background: linear-gradient(135deg, rgba(124,58,237,.10), rgba(14,165,233,.10));
+}
+
+/* lista */
+.tc2-list{
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+}
+
+.tc2-item{
+  display:flex;
+  gap: 12px;
+  padding: 14px 14px;
+  border-radius: var(--r2);
+  background: var(--cardSolid);
+  border: 1px solid rgba(15, 23, 42, .10);
+  box-shadow: var(--shadow2);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.tc2-item:active{
+  transform: scale(.99);
+}
+.tc2-item:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 26px rgba(2,6,23,.12);
+}
+
+.tc2-badge{
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display:grid;
+  place-items:center;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  box-shadow: 0 10px 18px rgba(124,58,237,.18);
+}
+
+.tc2-text h3{
+  margin:0 0 4px 0;
+  font-size: var(--h3);
+}
+.tc2-text p{
+  margin:0;
+  font-size: var(--p);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* callouts */
+.tc2-callout{
+  display:flex;
+  gap: 12px;
+  padding: 14px 14px;
+  border-radius: var(--r2);
+  background: var(--cardSolid);
+  border: 1px solid rgba(15, 23, 42, .10);
+  box-shadow: var(--shadow2);
+  position:relative;
+  overflow:hidden;
+}
+
+.tc2-callout::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background: linear-gradient(90deg, transparent, rgba(15,23,42,.05), transparent);
+  transform: translateX(-50%);
+  animation: tc2Sweep 3.4s ease-in-out infinite;
+}
+
+.tc2-callout-ico{
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display:grid;
+  place-items:center;
+  border: 1px solid rgba(15, 23, 42, .08);
+}
+
+.tc2-callout h3{
+  margin: 0 0 4px 0;
+  font-size: var(--h3);
+}
+.tc2-callout p{
+  margin:0;
+  font-size: var(--p);
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* variantes claras */
+.tc2-callout.danger{
+  border-color: rgba(245,158,11,.30);
+}
+.tc2-callout.danger .tc2-callout-ico{
+  background: linear-gradient(135deg, rgba(245,158,11,.18), rgba(236,72,153,.10));
+}
+
+.tc2-callout.info{
+  border-color: rgba(34,197,94,.28);
+}
+.tc2-callout.info .tc2-callout-ico{
+  background: linear-gradient(135deg, rgba(34,197,94,.16), rgba(14,165,233,.10));
+}
+
+/* footer */
+.tc2-footer{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  border-top: 1px solid rgba(15, 23, 42, .08);
+}
+.tc2-mini{
+  font-size: clamp(12px, 3.4vw, 14px);
+  color: rgba(71, 85, 105, .95);
+}
+
+/* Desktop: centra y limita ancho (pero sigue mobile-first) */
+@media (min-width: 900px){
+  .tc2{
+    align-items:center;
+  }
+  .tc2-top,
+  .tc2-card{
+    width: min(760px, 100%);
+  }
+}
+
+/* Animaciones suaves (no marean) */
+@keyframes tc2In{
+  from{ opacity:0; transform: translateY(10px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+@keyframes tc2Pulse{
+  0%,100%{ transform: scale(1); opacity:.95; }
+  50%{ transform: scale(1.10); opacity:1; }
+}
+@keyframes tc2Sweep{
+  0%,100%{ transform: translateX(-50%); opacity:.40; }
+  50%{ transform: translateX(50%); opacity:.65; }
+}
+@keyframes tc2Float{
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(20px,-12px) scale(1.06); }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+</style>
